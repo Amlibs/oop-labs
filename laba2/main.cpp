@@ -22,6 +22,15 @@ int main() {
     std::cout << "---------------ResBuilding-------------------" << '\n';
     std::cout << "Создание объекта класс ResBuilding" << '\n';
     ResBuilding* house = new ResBuilding();
+    std::cout << "Вызываем getlength у ResBuilding" << '\n';
+    std::cout << house->getLength() << '\n';
+    //std::cout << "Создаем объект класса ResBuilding, используя конструктор с параметрами" << '\n';
+    ResBuilding* big_house = new ResBuilding(4, true);
+    std::cout << "Вызываем getlength у нового объекта ResBuilding" << '\n';
+    std::cout << big_house->getLength() << '\n';
+    ResBuilding* house_2 = new ResBuilding(10, 10, 10);
+    std::cout << "Вызываем getlength у нового объекта ResBuilding" << '\n';
+    std::cout << house_2->getLength() << '\n';
     std::cout << "----------------------------------------------" << '\n';
 
     std::cout << "Вызов delete для buildig" << '\n';

@@ -9,6 +9,8 @@ class ResBuilding : public Building {
  public:
     ResBuilding();
     ResBuilding(int, bool);
+    ResBuilding(int, int, int);
+    ResBuilding(int, int, int, int, bool);
     ResBuilding(ResBuilding&);
     ~ResBuilding();
     int getRoomCount();
