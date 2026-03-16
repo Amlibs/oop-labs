@@ -47,6 +47,10 @@ void Building::setLength(int x) {
     length_ = x;
 }
 
+int Building::getSquare() {
+    return width_ * length_;
+}
+
 Building::~Building() {
     std::cout << "Деструктор класса Building" << '\n';
 }
