@@ -6,4 +6,11 @@ class Build {
     int height_;
  public:
     Build();
+    Build(Build&);
+    Build(int, int);
+    ~Build();
+    void setWidth(int);
+    void setHeight(int);
+    int getWidth();
+    int getHeight();
 };
