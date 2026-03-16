@@ -13,7 +13,7 @@ ResBuilding::ResBuilding(int wigth, int length, int heigth): Building(wigth, len
     std::cout << "Конструктор класса ResBuilding с параметрами родительского класса" << '\n';
 }
 
-ResBuilding::ResBuilding(int wigth = 0, int length = 0, int heigth = 0, int room_count = 0, bool have_sewerage = false ): Building(wigth, length, heigth),  room_count_(room_count), have_sewerage_(have_sewerage) {
+ResBuilding::ResBuilding(int wigth, int length, int heigth, int room_count, bool have_sewerage): Building(wigth, length, heigth),  room_count_(room_count), have_sewerage_(have_sewerage) {
     std::cout << "Конструктор класса ResBuilding с параметрами родительского класса и своими параметрами" << '\n';
 }
 
