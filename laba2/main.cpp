@@ -1,8 +1,11 @@
 #include ".\building\building.h"
 #include ".\residentialbuilding\resbuild.h"
+#include ".\area\area.cpp"
+#include ".\area\parea.cpp"
 #include <iostream>
 
 int main() {
+    std::cout << "---------------Building-------------------" << '\n';
     Building* build_dynamic = new Building();
 
     std::cout << build_dynamic->getHeight() << '\n';
@@ -16,8 +19,10 @@ int main() {
     std::cout << build_dynamic->getLength() << '\n';
 
     Building build(*build_dynamic);
+    std::cout << build.getHeight() << ' ' << build.getLength() << ' ' << build.getWidth() << ' ' << '\n';
 
     Building param_building(5, 5, 10);
+    std::cout << "----------------------------------------------" << '\n';
 
     std::cout << "---------------ResBuilding-------------------" << '\n';
     std::cout << "Создание объекта класс ResBuilding" << '\n';
@@ -33,6 +38,22 @@ int main() {
     std::cout << house_2->getLength() << '\n';
     std::cout << "Вызываем getSquare у нового объекта ResBuilding" << '\n';
     std::cout << house_2->getSquare() << '\n';
+    std::cout << "----------------------------------------------" << '\n';
+
+    std::cout << "-------------------Area--------------------" << '\n';
+    Area* area = new Area(10, true);
+    area->printInfo();
+    std::cout << "Вызов delete для area" << '\n';
+    delete area;
+    std::cout << "delete для area вызыван" << '\n';
+    std::cout << "----------------------------------------------" << '\n';
+
+    std::cout << "---------------PointerArea--------------------" << '\n';
+    PArea* parea = new PArea(100, 100, 110);
+    parea->printInfo();
+    std::cout << "Вызов delete для parea" << '\n';
+    delete parea;
+    std::cout << "delete для parea вызыван" << '\n';
     std::cout << "----------------------------------------------" << '\n';
 
     std::cout << "Вызов delete для buildig" << '\n';
