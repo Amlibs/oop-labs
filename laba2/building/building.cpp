@@ -9,7 +9,7 @@ Building::Building(int width, int length, int height): width_(width), length_(le
     std::cout << "Параметризированный конструктор класса Building" << '\n';
 }
 
-Building::Building(Building& building) {
+Building::Building(const Building& building) {
     std::cout << "Конструктор копирования класса Building" << '\n';
     width_ = building.width_;
     height_ = building.height_;

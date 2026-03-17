@@ -17,7 +17,7 @@ ResBuilding::ResBuilding(int wigth, int length, int heigth, int room_count, bool
     std::cout << "Конструктор класса ResBuilding с параметрами родительского класса и своими параметрами" << '\n';
 }
 
-ResBuilding::ResBuilding(ResBuilding& house) : Building(house) {
+ResBuilding::ResBuilding(const ResBuilding& house) : Building(house) {
     std::cout << "Конструктор копирования ResBuilding" << '\n';
     have_sewerage_ = house.have_sewerage_;
     room_count_ = house.room_count_;
@@ -41,4 +41,9 @@ void ResBuilding::setRoomCount(int room_count) {
 
 void ResBuilding::setSewerage(bool have_sewerage) {
     have_sewerage_ = have_sewerage;
+}
+
+int ResBuilding::getSquare() {
+    std::cout << width_ << " * " << length_ << " = " << Building::getSquare() << '\n';
+    return (width_ - 1) * (length_ - 1);
 }

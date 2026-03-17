@@ -31,6 +31,8 @@ int main() {
     ResBuilding* house_2 = new ResBuilding(10, 10, 10);
     std::cout << "Вызываем getlength у нового объекта ResBuilding" << '\n';
     std::cout << house_2->getLength() << '\n';
+    std::cout << "Вызываем getSquare у нового объекта ResBuilding" << '\n';
+    std::cout << house_2->getSquare() << '\n';
     std::cout << "----------------------------------------------" << '\n';
 
     std::cout << "Вызов delete для buildig" << '\n';
@@ -40,6 +42,7 @@ int main() {
     std::cout << "--------------ResBuildig------------------" << '\n';
     std::cout << "Вызов delete для ResBuildig" << '\n';
     delete house;
+    delete house_2;
     std::cout << "delete для ResBuilding вызыван" << '\n';
     std::cout << "----------------------------------------------" << '\n';
 
