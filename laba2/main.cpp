@@ -20,6 +20,19 @@ int main() {
 
     Building build(*build_dynamic);
     std::cout << build.getHeight() << ' ' << build.getLength() << ' ' << build.getWidth() << ' ' << '\n';
+    std::cout << "Изменим высоту скопированного объекта" << '\n';
+    build.setHeight(999);
+    std::cout << build.getHeight() << '\n';
+    std::cout << "Проверим поменялось ли значение у изначального объекта" << '\n';
+    std::cout << build_dynamic->getWidth() << ' ' << build_dynamic->getLength() << ' ' << build_dynamic->getHeight() << '\n';
+
+    std::cout << "Теперь возьмем объект по указателю" << '\n';
+    Building* building_2 = build_dynamic;
+    std::cout << "Поменяем значение по указателю" << '\n';
+    building_2->setWidth(99990);
+    std::cout << building_2->getWidth() << '\n';
+    std::cout << "Проверим поменялось ли значение у изначального объекта" << '\n';
+    std::cout << build_dynamic->getWidth() << ' ' << build_dynamic->getLength() << ' ' << build_dynamic->getHeight() << '\n';
 
     Building param_building(5, 5, 10);
     std::cout << "----------------------------------------------" << '\n';

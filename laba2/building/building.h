@@ -9,7 +9,7 @@ class Building {
   Building();
   Building(const Building&);
   Building(int, int, int);
-  ~Building();
+  virtual ~Building();
   void setWidth(int);
   void setHeight(int);
   void setLength(int);
