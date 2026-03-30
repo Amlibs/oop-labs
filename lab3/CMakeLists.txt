@@ -14,11 +14,13 @@ qt_add_executable(qtlab3
     ./canvas/canvas.cpp
     ./circle/circle.h
     ./circle/circle.cpp
+    ./container/container.h
+    ./container/container.cpp
 )
 
 target_link_libraries(qtlab3 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
 
 
 set_target_properties(qtlab3 PROPERTIES
-    WIN32_EXECUTABLE ON
+    WIN32_EXECUTABLE OFF
 )

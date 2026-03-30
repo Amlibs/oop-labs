@@ -4,7 +4,9 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QPoint>
+#include <QKeyEvent>
 #include "../circle/circle.h"
+#include "../container/container.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT
@@ -15,7 +17,8 @@ class CanvasWidget : public QWidget {
  private:
     void mousePressEvent(QMouseEvent*) override;
     void paintEvent(QPaintEvent*) override;
+    void keyPressEvent(QKeyEvent*) override;
 
-    QPoint coordinate;
-    //Circle circle;
+    QPoint coordinate_;
+    Container container_;
 };

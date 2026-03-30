@@ -2,14 +2,36 @@
 
 #include <QPainter>
 #include <QColor>
+#include <QDebug>
 
 void CanvasWidget::mousePressEvent(QMouseEvent* event) {
-    coordinate = event->pos();
+    coordinate_ = event->pos();
+    bool isCtrlPressed = event->modifiers() & Qt::ControlModifier;
+    bool flag = false;
+    //qDebug() << isCtrlPressed;
+    for (auto& i : container_) {
+        bool hit = i.hitInCircle(coordinate_);
+        i.setSelect(i.isSelected() & isCtrlPressed || hit);
+        if (hit) {
+            flag = true;
+        }
+    }
+    if (!flag) {
+        container_.addCircle(Circle(coordinate_, 50));
+    }
     update();
 }
 
 void CanvasWidget::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
-    Circle circle(coordinate, 30);
-    circle.drawCircle(painter);
+    for (auto i : container_) {
+        i.drawCircle(painter);
+    }
+}
+
+void CanvasWidget::keyPressEvent(QKeyEvent* event) {
+    if (event->key() == Qt::Key_Delete) {
+        container_.removeSelected();
+    }
+    update();
 }
