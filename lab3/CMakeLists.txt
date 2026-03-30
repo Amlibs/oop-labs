@@ -12,6 +12,8 @@ qt_add_executable(qtlab3
     main.cpp
     ./canvas/canvas.h
     ./canvas/canvas.cpp
+    ./circle/circle.h
+    ./circle/circle.cpp
 )
 
 target_link_libraries(qtlab3 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
