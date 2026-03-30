@@ -6,7 +6,15 @@ class Area {
     ResBuilding house_;
  public:
     Area (int room, bool sewerage) : house_(room, sewerage) {
-        std::cout << "Конструктор класса Area" << '\n';
+        std::cout << "Конструктор с параметрами класса Area" << '\n';
+    }
+
+    Area () : house_() {
+        std::cout << "Базовый конструктор класса Area" << '\n';
+    }
+
+    Area(const Area& house) : house_(house.house_) {
+        std::cout << "Конструктор копирования класса Area" << '\n';
     }
 
     ~Area() {

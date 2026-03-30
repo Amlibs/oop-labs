@@ -19,7 +19,7 @@ int main() {
     std::cout << build_dynamic->getLength() << '\n';
 
     Building build(*build_dynamic);
-    std::cout << build.getHeight() << ' ' << build.getLength() << ' ' << build.getWidth() << ' ' << '\n';
+    std::cout << build.getWidth() << ' ' << build.getLength() << ' ' << build.getHeight() << ' ' << '\n';
     std::cout << "Изменим высоту скопированного объекта" << '\n';
     build.setHeight(999);
     std::cout << build.getHeight() << '\n';
@@ -56,16 +56,28 @@ int main() {
     std::cout << "-------------------Area--------------------" << '\n';
     Area* area = new Area(10, true);
     area->printInfo();
+    std::cout << "Создание Area с помощью конструктора компирования" << '\n';
+    Area* area_2 = area;
+    std::cout << "Создание Area с помощью базового конструктора" << '\n';
+    Area* area_3 = new Area();
     std::cout << "Вызов delete для area" << '\n';
     delete area;
+    delete area_2;
+    delete area_3;
     std::cout << "delete для area вызыван" << '\n';
     std::cout << "----------------------------------------------" << '\n';
 
     std::cout << "---------------PointerArea--------------------" << '\n';
     PArea* parea = new PArea(100, 100, 110);
     parea->printInfo();
+    std::cout << "Вызов конструктора копирования PArea" << '\n';
+    PArea* parea_2 = new PArea(*parea);
+    std::cout << "Вызов базового конструктора" << '\n';
+    PArea* parea_3 = new PArea();
     std::cout << "Вызов delete для parea" << '\n';
     delete parea;
+    delete parea_2;
+    delete parea_3;
     std::cout << "delete для parea вызыван" << '\n';
     std::cout << "----------------------------------------------" << '\n';
 
