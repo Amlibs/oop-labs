@@ -11,7 +11,8 @@ Model::Model(int a, int b, int c) {
 }
 
 void Model::setA(QString a) {
-    if (!IsNumber(a)) {
+    if (!isNumber(a)) {
+        validateNumbers();
         return;
     }
     int a_i = a.toInt();
@@ -19,18 +20,22 @@ void Model::setA(QString a) {
         return;
     }
     a_ = a_i;
+    if (a_ < 0) {
+        a_ = 0;
+    }
     if (b_ < a_) {
         b_ = a_;
     }
     if (b_ > c_) {
         c_ = b_;
     }
-    ValidateNumbers();
+    validateNumbers();
     //std::cout << "a: " << a << '\n';
 }
 
 void Model::setB(QString b) {
-    if (!IsNumber(b)) {
+    if (!isNumber(b)) {
+        validateNumbers();
         return;
     }
     int b_i = b.toInt();
@@ -38,16 +43,20 @@ void Model::setB(QString b) {
         return;
     }
     b_ = b_i;
+    if (b_ < 0) {
+        b_ = 0;
+    }
     if (b_ > c_) {
         b_ = c_;
     } else if (b_ < a_) {
         b_ = a_;
     }
-    ValidateNumbers();
+    validateNumbers();
 }
 
 void Model::setC(QString c) {
-    if (!IsNumber(c)) {
+    if (!isNumber(c)) {
+        validateNumbers();
         return;
     }
     int c_i = c.toInt();
@@ -55,26 +64,29 @@ void Model::setC(QString c) {
         return;
     }
     c_ = c_i;
+    if (c_ < 0) {
+        c_ = 0;
+    }
     if (b_ > c_) {
         b_ = c_;
     }
     if (b_ < a_) {
         a_ = b_;
     }
-    ValidateNumbers();
+    validateNumbers();
     //std::cout << "c: " << c_ << '\n';
 }
 
-void Model::ValidateNumbers() {
-    if (a_ > 100 || b_ > 100 || c_ > 100) {
-        a_ = 100;
-        b_ = 100;
-        c_ = 100;
+void Model::validateNumbers() {
+    if (a_ > 99 || b_ > 99 || c_ > 99) {
+        a_ = 99;
+        b_ = 99;
+        c_ = 99;
     }
     emit valuesChanged(a_, b_, c_);
 }
 
-bool Model::IsNumber(QString x) {
+bool Model::isNumber(QString x) {
     bool ok = true;
     x.toInt(&ok);
     return ok;

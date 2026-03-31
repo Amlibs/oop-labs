@@ -19,8 +19,8 @@ class Model : public QObject {
  signals:
     void valuesChanged(int, int, int);
  private:
-    void ValidateNumbers();
-    bool IsNumber(QString);
+    void validateNumbers();
+    bool isNumber(QString);
     int a_;
     int b_;
     int c_;
