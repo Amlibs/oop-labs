@@ -4,17 +4,21 @@
 
 Model::Model(): a_(0), b_(0), c_(0) {}
 
-Model::Model(QString a, QString b, QString c) {
-    setA(a);
-    setB(b);
-    setC(c);
+Model::Model(int a, int b, int c) {
+    setA(QString::number(a));
+    setB(QString::number(b));
+    setC(QString::number(c));
 }
 
 void Model::setA(QString a) {
     if (!IsNumber(a)) {
         return;
     }
-    a_ = a.toInt();
+    int a_i = a.toInt();
+    if (a_ == a_i) {
+        return;
+    }
+    a_ = a_i;
     if (b_ < a_) {
         b_ = a_;
     }
@@ -29,7 +33,11 @@ void Model::setB(QString b) {
     if (!IsNumber(b)) {
         return;
     }
-    b_ = b.toInt();
+    int b_i = b.toInt();
+    if (b_ == b_i) {
+        return;
+    }
+    b_ = b_i;
     if (b_ > c_) {
         b_ = c_;
     } else if (b_ < a_) {
@@ -42,7 +50,11 @@ void Model::setC(QString c) {
     if (!IsNumber(c)) {
         return;
     }
-    c_ = c.toInt();
+    int c_i = c.toInt();
+    if (c_ == c_i) {
+        return;
+    }
+    c_ = c_i;
     if (b_ > c_) {
         b_ = c_;
     }
@@ -59,6 +71,7 @@ void Model::ValidateNumbers() {
         b_ = 100;
         c_ = 100;
     }
+    emit valuesChanged(a_, b_, c_);
 }
 
 bool Model::IsNumber(QString x) {
