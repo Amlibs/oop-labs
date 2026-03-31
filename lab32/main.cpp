@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QWidget>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QLabel>
 
 #include "./view/view.h"
 #include "./model/model.h"
@@ -12,10 +14,16 @@ int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
     QWidget* main_widget = new QWidget();
     QHBoxLayout* layout = new QHBoxLayout();
-    main_widget->setLayout(layout);
+    QVBoxLayout* v_layout = new QVBoxLayout();
+    main_widget->setLayout(v_layout);
+    QLabel* label = new QLabel("A <= B <= C");
     ViewWidget* view_widget_for_a = new ViewWidget();
     ViewWidget* view_widget_for_b = new ViewWidget();
     ViewWidget* view_widget_for_c = new ViewWidget();
+    v_layout->addWidget(label);
+    label->setAlignment(Qt::AlignCenter);
+    label->setStyleSheet("font-size: 50px");
+    v_layout->addLayout(layout);
     layout->addWidget(view_widget_for_a);
     layout->addWidget(view_widget_for_b);
     layout->addWidget(view_widget_for_c);

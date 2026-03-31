@@ -20,5 +20,5 @@ target_link_libraries(qtlab32 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
 
 
 set_target_properties(qtlab32 PROPERTIES
-    WIN32_EXECUTABLE ON
+    WIN32_EXECUTABLE OFF
 )

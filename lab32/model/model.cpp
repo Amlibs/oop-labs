@@ -1,6 +1,7 @@
 #include "model.h"
 #include <algorithm>
 #include <QString>
+#include <qDebug>
 
 Model::Model(): a_(0), b_(0), c_(0) {}
 
@@ -83,6 +84,7 @@ void Model::validateNumbers() {
         b_ = 99;
         c_ = 99;
     }
+    //qDebug() << "emit";
     emit valuesChanged(a_, b_, c_);
 }
 
