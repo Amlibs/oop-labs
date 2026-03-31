@@ -9,6 +9,9 @@ class Model : public QObject {
     Model();
     Model(QString, QString, QString);
     Model(int, int, int);
+    ~Model();
+    void load();
+    void save();
     void PrintAll() {
         std::cout << a_ << ' ' << b_ << ' ' << c_ << '\n';
     }

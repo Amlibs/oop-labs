@@ -2,13 +2,23 @@
 #include <algorithm>
 #include <QString>
 #include <qDebug>
+#include <iostream>
+#include <fstream>
+#include <qDebug>
 
-Model::Model(): a_(0), b_(0), c_(0) {}
+Model::Model(): a_(0), b_(0), c_(0) {
+    qDebug() << "asdasdasdasdafgfdgtrhtrhrth";
+}
 
 Model::Model(int a, int b, int c) {
     setA(QString::number(a));
     setB(QString::number(b));
     setC(QString::number(c));
+}
+
+Model::~Model() {
+    qDebug() << "asdasdasd";
+    save();
 }
 
 void Model::setA(QString a) {
@@ -17,7 +27,7 @@ void Model::setA(QString a) {
         return;
     }
     int a_i = a.toInt();
-    if (a_ == a_i) {
+    if (a_ == a_i && a_ != 0) {
         return;
     }
     a_ = a_i;
@@ -92,4 +102,24 @@ bool Model::isNumber(QString x) {
     bool ok = true;
     x.toInt(&ok);
     return ok;
+}
+
+void Model::load() {
+    int a = 0;
+    int b = 0;
+    int c = 0;
+    std::ifstream in("state.txt");
+    if (in.is_open()) {
+        in >> a >> b >> c;
+    }
+    setA(QString::number(a));
+    setB(QString::number(b));
+    setC(QString::number(c));
+}
+
+void Model::save() {
+    std::ofstream out("state.txt");
+    if (out.is_open()) {
+        out << a_ << " " << b_ << " " << c_; 
+    }
 }
