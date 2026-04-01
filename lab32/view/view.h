@@ -13,8 +13,9 @@ class ViewWidget : public QWidget {
  public slots:
     void setValue(int);
  signals:
-    void valueEdited(QString);
+    void valueEdited(int);
  private:
+    bool isNumber(QString);
     QVBoxLayout* layout;
     QSpinBox* spin_box;
     QSlider* slider;

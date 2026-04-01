@@ -6,7 +6,8 @@
 
 class Container {
  public:
-    void addCircle(const Circle&);
+    ~Container();
+    void addCircle(Circle*);
     void removeSelected();
     auto begin() {
         return container_.begin();
@@ -15,5 +16,5 @@ class Container {
         return container_.end();
     }
  private:
-    std::list<Circle> container_;
+    std::list<Circle*> container_;
 };

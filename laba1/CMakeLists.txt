@@ -21,5 +21,4 @@ target_link_libraries(testqt PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
 
 set_target_properties(testqt PROPERTIES
     WIN32_EXECUTABLE ON
-    MACOSX_BUNDLE ON
 )

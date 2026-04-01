@@ -6,31 +6,27 @@
 #include <fstream>
 #include <qDebug>
 
-Model::Model(): a_(0), b_(0), c_(0) {
-    qDebug() << "asdasdasdasdafgfdgtrhtrhrth";
+Model::Model() {
+    load();
+    //qDebug() << "asdasdasdasdafgfdgtrhtrhrth";
 }
 
 Model::Model(int a, int b, int c) {
-    setA(QString::number(a));
-    setB(QString::number(b));
-    setC(QString::number(c));
+    setA(a);
+    setB(b);
+    setC(c);
 }
 
 Model::~Model() {
-    qDebug() << "asdasdasd";
+    //qDebug() << "asdasdasd";
     save();
 }
 
-void Model::setA(QString a) {
-    if (!isNumber(a)) {
-        validateNumbers();
+void Model::setA(int a) {
+    if (a_ == a && a_ != 0) {
         return;
     }
-    int a_i = a.toInt();
-    if (a_ == a_i && a_ != 0) {
-        return;
-    }
-    a_ = a_i;
+    a_ = a;
     if (a_ < 0) {
         a_ = 0;
     }
@@ -44,16 +40,11 @@ void Model::setA(QString a) {
     //std::cout << "a: " << a << '\n';
 }
 
-void Model::setB(QString b) {
-    if (!isNumber(b)) {
-        validateNumbers();
+void Model::setB(int b) {
+    if (b_ == b) {
         return;
     }
-    int b_i = b.toInt();
-    if (b_ == b_i) {
-        return;
-    }
-    b_ = b_i;
+    b_ = b;
     if (b_ < 0) {
         b_ = 0;
     }
@@ -65,16 +56,11 @@ void Model::setB(QString b) {
     validateNumbers();
 }
 
-void Model::setC(QString c) {
-    if (!isNumber(c)) {
-        validateNumbers();
+void Model::setC(int c) {
+    if (c_ == c) {
         return;
     }
-    int c_i = c.toInt();
-    if (c_ == c_i) {
-        return;
-    }
-    c_ = c_i;
+    c_ = c;
     if (c_ < 0) {
         c_ = 0;
     }
@@ -98,12 +84,6 @@ void Model::validateNumbers() {
     emit valuesChanged(a_, b_, c_);
 }
 
-bool Model::isNumber(QString x) {
-    bool ok = true;
-    x.toInt(&ok);
-    return ok;
-}
-
 void Model::load() {
     int a = 0;
     int b = 0;
@@ -112,9 +92,9 @@ void Model::load() {
     if (in.is_open()) {
         in >> a >> b >> c;
     }
-    setA(QString::number(a));
-    setB(QString::number(b));
-    setC(QString::number(c));
+    a_ = a;
+    b_ = b;
+    c_ = c;
 }
 
 void Model::save() {

@@ -9,15 +9,15 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     bool isCtrlPressed = event->modifiers() & Qt::ControlModifier;
     bool flag = false;
     //qDebug() << isCtrlPressed;
-    for (auto& i : container_) {
-        bool hit = i.hitInCircle(coordinate_);
-        i.setSelect(i.isSelected() & isCtrlPressed || hit);
+    for (auto i : container_) {
+        bool hit = i->hitInCircle(coordinate_);
+        i->setSelect(i->isSelected() & isCtrlPressed || hit);
         if (hit) {
             flag = true;
         }
     }
     if (!flag) {
-        container_.addCircle(Circle(coordinate_, 50));
+        container_.addCircle(new Circle(coordinate_, 50));
     }
     update();
 }
@@ -25,7 +25,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
 void CanvasWidget::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     for (auto i : container_) {
-        i.drawCircle(painter);
+        i->drawCircle(painter);
     }
 }
 

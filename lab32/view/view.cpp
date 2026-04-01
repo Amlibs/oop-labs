@@ -12,20 +12,36 @@ ViewWidget::ViewWidget() : QWidget() {
     layout->addWidget(line_edit);
 
     connect(spin_box, &QSpinBox::editingFinished, this, [=](){
-        emit valueEdited(QString::number(spin_box->value()));
+        emit valueEdited(spin_box->value());
     });
 
     connect(slider, &QSlider::sliderReleased, this, [=](){
-        emit valueEdited(QString::number(slider->value()));
+        emit valueEdited(slider->value());
     });
 
     connect(line_edit, &QLineEdit::editingFinished, this, [=](){
-        emit valueEdited(line_edit->text());
+        if (isNumber(line_edit->text())) {
+            emit valueEdited(line_edit->text().toInt());
+        }
     });
 }
 
 void ViewWidget::setValue(int value) {
+    spin_box->blockSignals(true);
+    slider->blockSignals(true);
+    line_edit->blockSignals(true);
+
     spin_box->setValue(value);
     slider->setValue(value);
     line_edit->setText(QString::number(value));
+
+    spin_box->blockSignals(false);
+    slider->blockSignals(false);
+    line_edit->blockSignals(false);
+}
+
+bool ViewWidget::isNumber(QString x) {
+    bool ok = true;
+    x.toInt(&ok);
+    return ok;
 }

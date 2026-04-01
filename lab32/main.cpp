@@ -50,7 +50,11 @@ int main(int argc, char* argv[]) {
         [=](int a, int b, int c) {
             view_widget_for_c->setValue(c);
         });
-    model->load();
+
+    view_widget_for_a->setValue(model->getA());
+    view_widget_for_b->setValue(model->getB());
+    view_widget_for_c->setValue(model->getC());
+
     main_widget->show();
     int res = app.exec();
     delete model;

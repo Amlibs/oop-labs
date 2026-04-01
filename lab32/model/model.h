@@ -7,23 +7,30 @@ class Model : public QObject {
     Q_OBJECT
  public:
     Model();
-    Model(QString, QString, QString);
     Model(int, int, int);
     ~Model();
-    void load();
-    void save();
     void PrintAll() {
         std::cout << a_ << ' ' << b_ << ' ' << c_ << '\n';
     }
+    int getA() {
+      return a_;
+    }
+    int getB() {
+      return b_;
+    }
+    int getC() {
+      return c_;
+    }
  public slots:
-    void setA(QString);
-    void setB(QString);
-    void setC(QString);
+    void setA(int);
+    void setB(int);
+    void setC(int);
  signals:
     void valuesChanged(int, int, int);
  private:
     void validateNumbers();
-    bool isNumber(QString);
+    void load();
+    void save();
     int a_;
     int b_;
     int c_;
