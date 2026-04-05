@@ -3,15 +3,16 @@
 #include <QPoint>
 #include <QPainter>
 #include <QDebug>
+#include "../shape/shape.h"
 
-class Circle {
+class Circle : public Shape{
  public:
     Circle();
     Circle(QPoint, int);
-    bool isSelected(){
+    bool isSelected() override {
         return select_;
     }
-    void setSelect(bool select) {
+    void setSelect(bool select) override {
         select_ = select;
     }
     void setCenter(QPoint point) {
@@ -20,10 +21,8 @@ class Circle {
     void setRadius(int r) {
         radius_ = r;
     }
-    bool hitInCircle(QPoint const);
-    void drawCircle(QPainter&);
+    bool hit(QPoint const) override;
+    void draw(QPainter&) override;
  private:
-    QPoint center_;
     int radius_;
-    bool select_;
 };

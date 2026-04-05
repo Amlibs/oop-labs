@@ -8,10 +8,10 @@ Circle::Circle() {
     select_ = false;
 }
 
-Circle::Circle(QPoint point, int radius) : center_(point), radius_(radius), select_(false) {
+Circle::Circle(QPoint point, int radius) : Shape(point, false), radius_(radius) {
 }
 
-bool Circle::hitInCircle(const QPoint pos) {
+bool Circle::hit(const QPoint pos) {
     int x = pos.x() - center_.x();
     int y = pos.y() - center_.y();
     if ((x * x + y * y) < (radius_ * radius_)) {
@@ -20,7 +20,7 @@ bool Circle::hitInCircle(const QPoint pos) {
     return false;
 }
 
-void Circle::drawCircle(QPainter& painter) {
+void Circle::draw(QPainter& painter) {
     painter.setRenderHint(QPainter::Antialiasing);
     //qDebug() << select_;
     if (!select_) {

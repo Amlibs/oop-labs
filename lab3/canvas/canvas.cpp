@@ -10,7 +10,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     bool flag = false;
     //qDebug() << isCtrlPressed;
     for (auto i : container_) {
-        bool hit = i->hitInCircle(coordinate_);
+        bool hit = i->hit(coordinate_);
         i->setSelect(i->isSelected() & isCtrlPressed || hit);
         if (hit) {
             flag = true;
@@ -25,7 +25,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
 void CanvasWidget::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     for (auto i : container_) {
-        i->drawCircle(painter);
+        i->draw(painter);
     }
 }
 
