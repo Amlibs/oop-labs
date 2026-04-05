@@ -8,10 +8,10 @@ Container::~Container() {
     //qDebug() << "delete";
 }
 
-void Container::addCircle(Circle* circle) {
-    container_.push_back(circle);
+void Container::add(Shape* shape) {
+    container_.push_back(shape);
 }
 
 void Container::removeSelected() {
-    container_.remove_if([](Circle* circle) {return circle->isSelected();});
+    container_.remove_if([](Shape* shape) {return shape->isSelected();});
 }

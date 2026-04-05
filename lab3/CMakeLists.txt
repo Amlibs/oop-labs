@@ -16,6 +16,7 @@ qt_add_executable(qtlab3
     ./circle/circle.cpp
     ./container/container.h
     ./container/container.cpp
+    ./shape/shape.h
 )
 
 target_link_libraries(qtlab3 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)

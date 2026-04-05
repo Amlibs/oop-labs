@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../circle/circle.h"
+#include "../shape/shape.h"
 #include <vector>
 #include <list>
 
 class Container {
  public:
     ~Container();
-    void addCircle(Circle*);
+    void add(Shape*);
     void removeSelected();
     auto begin() {
         return container_.begin();
@@ -16,5 +16,5 @@ class Container {
         return container_.end();
     }
  private:
-    std::list<Circle*> container_;
+    std::list<Shape*> container_;
 };

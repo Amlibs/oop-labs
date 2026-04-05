@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QPoint>
 #include <QPainter>
 
