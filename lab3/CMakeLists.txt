@@ -21,6 +21,8 @@ qt_add_executable(qtlab3
     ./rectangle/rectangle.cpp
     ./square/square.h
     ./square/square.cpp
+    ./ellipse/ellipse.h
+    ./ellipse/ellipse.cpp
 )
 
 target_link_libraries(qtlab3 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)

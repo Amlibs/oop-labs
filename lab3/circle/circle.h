@@ -3,17 +3,10 @@
 #include <QPoint>
 #include <QPainter>
 #include <QDebug>
-#include "../shape/shape.h"
+#include "../ellipse/ellipse.h"
 
-class Circle : public Shape{
+class Circle : public Ellipse{
  public:
     Circle();
-    Circle(QPoint, int);
-    void setRadius(int r) {
-        radius_ = r;
-    }
-    bool hit(QPoint const) override;
-    void draw(QPainter&) override;
- private:
-    int radius_;
+    Circle(QPoint pos, int r) : Ellipse(pos, r, r) {};
 };

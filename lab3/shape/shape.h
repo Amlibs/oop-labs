@@ -5,7 +5,7 @@
 
 class Shape {
  public:
-    Shape() : center_(QPoint(0, 0)), select_(0) {};
+    Shape() : center_(QPoint(0, 0)), select_(false) {};
     Shape(QPoint center, bool select) : center_(center), select_(select) {};
     bool isSelected() {
         return select_;

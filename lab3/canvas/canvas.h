@@ -9,6 +9,7 @@
 #include "../container/container.h"
 #include "../rectangle/rectangle.h"
 #include "../square/square.h"
+#include "../ellipse/ellipse.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT
