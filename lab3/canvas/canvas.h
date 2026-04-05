@@ -7,6 +7,8 @@
 #include <QKeyEvent>
 #include "../circle/circle.h"
 #include "../container/container.h"
+#include "../rectangle/rectangle.h"
+#include "../square/square.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT
