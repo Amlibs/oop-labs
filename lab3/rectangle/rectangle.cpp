@@ -14,17 +14,7 @@ Rectangle::Rectangle(QPoint pos, int l, int h) : Shape(pos, false), height_(h), 
 
 
 void Rectangle::draw(QPainter& painter) {
-    painter.setRenderHint(QPainter::Antialiasing);
-    //qDebug() << select_;
-    if (!select_) {
-        painter.setBrush(QBrush(QColor::fromRgb(153, 255, 204), Qt::SolidPattern));
-        painter.setPen(QColor::fromRgb(0, 204, 102));
-        //qDebug() << "Hello rect";
-    } else {
-        painter.setBrush(QBrush(QColor::fromRgb(153, 255, 204), Qt::SolidPattern));
-        painter.setPen(QColor::fromRgb(0, 0, 204));
-        //qDebug() << "Hello ctrl rect";
-    }
+    Shape::draw(painter);
     painter.drawRect(x_, y_, length_, height_);
 }
 

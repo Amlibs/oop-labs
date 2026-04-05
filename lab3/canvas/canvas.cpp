@@ -17,7 +17,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
         }
     }
     if (!flag) {
-        container_.add(new Square(coordinate_, 70));
+        container_.add(new Rectangle(coordinate_, 70, 50));
     }
     update();
 }

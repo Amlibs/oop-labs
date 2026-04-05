@@ -16,7 +16,19 @@ class Shape {
     void setCenter(QPoint point) {
         center_ = point;
     }
-    virtual void draw(QPainter&) = 0;
+    virtual void draw(QPainter& painter) {
+        painter.setRenderHint(QPainter::Antialiasing);
+        //qDebug() << select_;
+        if (!select_) {
+            painter.setBrush(QBrush(QColor::fromRgb(153, 255, 204), Qt::SolidPattern));
+            painter.setPen(QColor::fromRgb(0, 204, 102));
+            //qDebug() << "Hello rect";
+        } else {
+            painter.setBrush(QBrush(QColor::fromRgb(153, 255, 204), Qt::SolidPattern));
+            painter.setPen(QColor::fromRgb(0, 0, 204));
+            //qDebug() << "Hello ctrl rect";
+        }
+    }
     virtual bool hit(QPoint const) = 0;
  protected:
     QPoint center_;

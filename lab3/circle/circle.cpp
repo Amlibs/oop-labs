@@ -21,16 +21,6 @@ bool Circle::hit(const QPoint pos) {
 }
 
 void Circle::draw(QPainter& painter) {
-    painter.setRenderHint(QPainter::Antialiasing);
-    //qDebug() << select_;
-    if (!select_) {
-        painter.setBrush(QBrush(QColor::fromRgb(153, 255, 204), Qt::SolidPattern));
-        painter.setPen(QColor::fromRgb(0, 204, 102));
-        //qDebug() << "Hello";
-    } else {
-        painter.setBrush(QBrush(QColor::fromRgb(153, 255, 204), Qt::SolidPattern));
-        painter.setPen(QColor::fromRgb(0, 0, 204));
-        //qDebug() << "Hello5454544548";
-    }
+    Shape::draw(painter);
     painter.drawEllipse(center_, radius_, radius_);
 }
