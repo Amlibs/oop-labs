@@ -2,6 +2,7 @@
 
 #include <QPoint>
 #include <QPainter>
+#include <QDebug>
 
 class Shape {
  public:

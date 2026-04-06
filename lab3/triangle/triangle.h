@@ -1,0 +1,28 @@
+#pragma once
+
+#include <QPoint>
+#include <QPainter>
+#include <QDebug>
+#include <QPolygon>
+#include "../shape/shape.h"
+
+class Triangle : public Shape{
+ public:
+    Triangle();
+    Triangle(QPoint, double);
+    void setLength(int a) {
+        length_ = a;
+    }
+    void setHeight(double h) {
+        height_ = h;
+    }
+    bool hit(const QPoint) override;
+    void draw(QPainter&) override;
+ protected:
+    double length_;
+    double height_;
+    QPoint a_;
+    QPoint b_;
+    QPoint c_;
+    QPolygon polygon;
+};

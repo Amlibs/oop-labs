@@ -17,7 +17,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
         }
     }
     if (!flag) {
-        container_.add(new Circle(coordinate_, 50));
+        container_.add(new Triangle(coordinate_, 50));
     }
     update();
 }
