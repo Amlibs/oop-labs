@@ -6,8 +6,8 @@
 
 class Shape {
  public:
-    Shape() : center_(QPoint(0, 0)), select_(false) {};
-    Shape(QPoint center, bool select) : center_(center), select_(select) {};
+    Shape() : center_(QPoint(0, 0)), select_(false), color_(QColor::fromRgb(153, 255, 204)) {};
+    Shape(QPoint center, bool select, QColor color = QColor::fromRgb(153, 255, 204)) : center_(center), select_(select), color_(color) {};
     bool isSelected() {
         return select_;
     }
@@ -21,11 +21,11 @@ class Shape {
         painter.setRenderHint(QPainter::Antialiasing);
         //qDebug() << select_;
         if (!select_) {
-            painter.setBrush(QBrush(QColor::fromRgb(153, 255, 204), Qt::SolidPattern));
+            painter.setBrush(QBrush(color_, Qt::SolidPattern));
             painter.setPen(QColor::fromRgb(0, 204, 102));
             //qDebug() << "Hello rect";
         } else {
-            painter.setBrush(QBrush(QColor::fromRgb(153, 255, 204), Qt::SolidPattern));
+            painter.setBrush(QBrush(color_, Qt::SolidPattern));
             painter.setPen(QColor::fromRgb(0, 0, 204));
             //qDebug() << "Hello ctrl rect";
         }
@@ -34,4 +34,5 @@ class Shape {
  protected:
     QPoint center_;
     bool select_;
+    QColor color_;
 };

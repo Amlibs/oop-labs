@@ -4,6 +4,10 @@
 #include <QColor>
 #include <QDebug>
 
+CanvasWidget::CanvasWidget(Factory* factory) : factory_(factory) {
+    setFocusPolicy(Qt::StrongFocus);
+}
+
 void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     coordinate_ = event->pos();
     bool isCtrlPressed = event->modifiers() & Qt::ControlModifier;
@@ -17,7 +21,12 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
         }
     }
     if (!flag) {
-        container_.add(new Triangle(coordinate_, 50));
+        Shape* shape = factory_->createShapes(coordinate_);
+        if (shape == nullptr) {
+            //qDebug() << "nullptr";
+            return;
+        }
+        container_.add(shape);
     }
     update();
 }

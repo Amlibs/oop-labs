@@ -2,7 +2,7 @@
 
 Ellipse::Ellipse() {};
 
-Ellipse::Ellipse(QPoint pos, int rx, int ry) : Shape(pos, false), radius_x_(rx), radius_y_(ry) {}
+Ellipse::Ellipse(QPoint pos, int rx, int ry, QColor color) : Shape(pos, false, color), radius_x_(rx), radius_y_(ry) {}
 
 bool Ellipse::hit(const QPoint pos) {
     double x = pos.x() - center_.x();

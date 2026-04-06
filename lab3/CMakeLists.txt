@@ -25,6 +25,8 @@ qt_add_executable(qtlab3
     ./ellipse/ellipse.cpp
     ./triangle/triangle.h
     ./triangle/triangle.cpp
+    ./factory/factory.h
+    ./factory/factory.cpp
 )
 
 target_link_libraries(qtlab3 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)

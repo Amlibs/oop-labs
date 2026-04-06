@@ -7,7 +7,7 @@ Rectangle::Rectangle() {
     y_ = 0;
 }
 
-Rectangle::Rectangle(QPoint pos, int l, int h) : Shape(pos, false), height_(h), length_(l) {
+Rectangle::Rectangle(QPoint pos, int l, int h, QColor color) : Shape(pos, false, color), height_(h), length_(l) {
     x_ = pos.x() - l / 2;
     y_ = pos.y() - h / 2;
 }

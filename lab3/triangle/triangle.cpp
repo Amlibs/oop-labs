@@ -1,7 +1,7 @@
 #include "triangle.h"
 #include <cmath>
 
-Triangle::Triangle(QPoint pos, double a) : Shape(pos, false), length_(a) {
+Triangle::Triangle(QPoint pos, double a, QColor color) : Shape(pos, false, color), length_(a) {
     //qDebug() << a_ << center_;
     height_ = a * std::sqrt(3) / 2;
     a_ = QPoint(center_.x(), center_.y() - 2 * height_ / 3);

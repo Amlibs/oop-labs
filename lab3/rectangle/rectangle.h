@@ -8,7 +8,7 @@
 class Rectangle : public Shape {
  public:
     Rectangle();
-    Rectangle(QPoint, int, int);
+    Rectangle(QPoint, int, int, QColor);
     void setWidth(int w) {
         height_ = w;
     }

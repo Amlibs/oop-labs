@@ -9,7 +9,7 @@
 class Triangle : public Shape{
  public:
     Triangle();
-    Triangle(QPoint, double);
+    Triangle(QPoint, double, QColor);
     void setLength(int a) {
         length_ = a;
     }

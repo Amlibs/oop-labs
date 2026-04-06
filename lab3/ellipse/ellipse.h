@@ -8,7 +8,7 @@
 class Ellipse : public Shape{
  public:
     Ellipse();
-    Ellipse(QPoint, int, int);
+    Ellipse(QPoint, int, int, QColor);
     void setRadiusX(int rx) {
         radius_x_ = rx;
     }

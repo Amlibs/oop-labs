@@ -5,24 +5,19 @@
 #include <QPaintEvent>
 #include <QPoint>
 #include <QKeyEvent>
-#include "../circle/circle.h"
-#include "../container/container.h"
-#include "../rectangle/rectangle.h"
-#include "../square/square.h"
-#include "../ellipse/ellipse.h"
-#include "../triangle/triangle.h"
+#include "../factory/factory.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT
  public:
-    CanvasWidget() {
+    CanvasWidget(Factory*);
 
-    }
  private:
     void mousePressEvent(QMouseEvent*) override;
     void paintEvent(QPaintEvent*) override;
     void keyPressEvent(QKeyEvent*) override;
-
+    
     QPoint coordinate_;
     Container container_;
+    Factory* factory_;
 };
