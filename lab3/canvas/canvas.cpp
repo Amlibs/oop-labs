@@ -33,15 +33,9 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
 
 void CanvasWidget::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
-    qDebug() << this->rect();
+    //qDebug() << this->rect();
     for (auto i : container_) {
         i->draw(painter);
-                // тестовый QRect
-        QRect r = i->getBorders();
-
-        painter.setPen(QPen(Qt::red, 2));                 // красная рамка
-        painter.setBrush(QBrush(QColor(255, 0, 0, 40))); // полупрозрачная заливка
-        painter.drawRect(r);
     }
 }
 
@@ -49,7 +43,7 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Delete) {
         container_.removeSelected();
     }
-    MoveCommand* new_command = nullptr;
+    Command* new_command = nullptr;
     QRect canvas_border = this->contentsRect();
     if (event->key() == Qt::Key_Left) {
         new_command = new MoveCommand(-20, 0, canvas_border);
@@ -62,6 +56,12 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
     }
     if (event->key() == Qt::Key_Down) {
         new_command = new MoveCommand(0, 20, canvas_border);
+    }
+    if (event->key() == Qt::Key_Plus) {
+        new_command = new ResizeCommand(5, canvas_border);
+    }
+    if (event->key() == Qt::Key_Minus) {
+        new_command = new ResizeCommand(-5, canvas_border);
     }
     if (new_command != nullptr) {
         container_.apply(new_command, history);

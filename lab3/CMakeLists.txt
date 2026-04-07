@@ -30,6 +30,8 @@ qt_add_executable(qtlab3
     ./commands/command.h
     ./commands/movecommand.h
     ./commands/movecommand.cpp
+    ./commands/resizecommand.h
+    ./commands/resizecommand.cpp
 )
 
 target_link_libraries(qtlab3 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)

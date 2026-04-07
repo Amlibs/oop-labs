@@ -18,6 +18,7 @@ class Rectangle : public Shape {
     bool hit(const QPoint) override;
     void draw(QPainter&) override;
     void updateShape() override;
+    void resize(int) override;
     QRect getBorders() override {
         return borders_;
     }

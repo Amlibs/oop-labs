@@ -9,6 +9,7 @@
 
 #include "../factory/factory.h"
 #include "../commands/movecommand.h"
+#include "../commands/resizecommand.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT

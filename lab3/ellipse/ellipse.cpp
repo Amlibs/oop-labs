@@ -25,3 +25,8 @@ void Ellipse::draw(QPainter& painter) {
 void Ellipse::updateShape() {
     borders_ = QRect(center_.x() - radius_x_, center_.y() - radius_y_, 2 * radius_x_, 2 * radius_y_);
 }
+
+void Ellipse::resize(int dx) {
+    radius_x_ += dx;
+    radius_y_ += dx;
+}

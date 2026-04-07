@@ -35,4 +35,9 @@ void Rectangle::updateShape() {
     borders_ = QRect(x_, y_, length_, height_);
 }
 
+void Rectangle::resize(int dx) {
+    height_ += dx;
+    length_ += dx;
+}
+
 

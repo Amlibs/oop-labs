@@ -33,3 +33,8 @@ void Triangle::updateShape() {
     borders_ = QRect(QPoint(b_.x(), b_.y() - height_), QSize((int)length_, (int)height_));
     //qDebug() << polygon; 
 }
+
+void Triangle::resize(int dx) {
+    length_ += dx;
+    height_ = length_ * std::sqrt(3) / 2;
+}

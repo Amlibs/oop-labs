@@ -37,6 +37,7 @@ class Shape {
     }
     virtual void updateShape() = 0;
     virtual QRect getBorders() = 0;
+    virtual void resize(int) = 0;
 
     void print() {
         qDebug() << "tri" << getBorders();
