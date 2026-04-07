@@ -16,13 +16,15 @@ void Container::removeSelected() {
     container_.remove_if([](Shape* shape) {return shape->isSelected();});
 }
 
-void Container::move(MoveCommand* command) {
+void Container::move(MoveCommand* command, std::list<Command*>& history) {
     for (auto i : container_) {
         if (!i->isSelected()) {
             continue;
         }
+        auto clone_comand = command->clone(); 
         //i->print();
-        command->execute(i);
+        clone_comand->execute(i);
+        history.push_back(clone_comand);
         i->updateShape();
         //i->print();
         //qDebug() << "exec";

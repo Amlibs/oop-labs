@@ -10,7 +10,7 @@ class Container {
     ~Container();
     void add(Shape*);
     void removeSelected();
-    void move(MoveCommand*);
+    void move(MoveCommand*, std::list<Command*>&);
     auto begin() {
         return container_.begin();
     }

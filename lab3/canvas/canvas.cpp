@@ -42,26 +42,30 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Delete) {
         container_.removeSelected();
     }
+    MoveCommand* new_command = nullptr;
     if (event->key() == Qt::Key_Left) {
-        MoveCommand* new_command = new MoveCommand(-20, 0);
-        container_.move(new_command);
-        history.push_back(new_command);
+        new_command = new MoveCommand(-20, 0);
     }
     if (event->key() == Qt::Key_Up) {
-        MoveCommand* new_command = new MoveCommand(0, -20);
-        container_.move(new_command);
-        history.push_back(new_command);
-        //qDebug() << "UPUPUPUPUPUPUPUPUPUPUPU";
+        new_command = new MoveCommand(0, -20);
     }
     if (event->key() == Qt::Key_Right) {
-        MoveCommand* new_command = new MoveCommand(20, 0);
-        container_.move(new_command);
-        history.push_back(new_command);
+        new_command = new MoveCommand(20, 0);
     }
     if (event->key() == Qt::Key_Down) {
-        MoveCommand* new_command = new MoveCommand(0, 20);
-        container_.move(new_command);
-        history.push_back(new_command);
+        new_command = new MoveCommand(0, 20);
+    }
+    if (new_command != nullptr) {
+        container_.move(new_command, history);
+    }
+    if (event->keyCombination() == QKeyCombination(Qt::CTRL, Qt::Key_Z)) {
+        //qDebug() << "ctrl z";
+        if (!history.empty()) {
+            Command* first = history.back();
+            history.pop_back();
+            first->unexecute();
+            delete first;
+        }
     }
     update();
 }
