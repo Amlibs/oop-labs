@@ -8,7 +8,7 @@
 class Rectangle : public Shape {
  public:
     Rectangle();
-    Rectangle(QPoint, int, int, QColor);
+    Rectangle(QPoint, QRect, int, int, QColor);
     void setWidth(int w) {
         height_ = w;
     }
@@ -19,13 +19,9 @@ class Rectangle : public Shape {
     void draw(QPainter&) override;
     void updateShape() override;
     void resize(int) override;
-    QRect getBorders() override {
-        return borders_;
-    }
  protected:
     int height_;
     int length_;
     int x_;
     int y_;
-    QRect borders_;
 };

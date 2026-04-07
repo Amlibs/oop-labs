@@ -13,7 +13,7 @@
 class Factory {
  public:
     Factory(QColor);
-    Shape* createShapes(QPoint);
+    Shape* createShapes(QPoint, QRect);
     void setColor(QColor color) {
         color_ = color;
     }

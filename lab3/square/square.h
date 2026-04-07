@@ -5,5 +5,5 @@
 class Square : public Rectangle {
  public:
     Square();
-    Square(QPoint pos, int x, QColor color) : Rectangle(pos, x, x, color) {};
+    Square(QPoint pos, QRect canvas_border, int x, QColor color) : Rectangle(pos, canvas_border, x, x, color) {};
 };

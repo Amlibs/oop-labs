@@ -30,4 +30,10 @@ void Container::apply(Command* command, std::list<Command*>& history) {
         //i->print();
         //qDebug() << "exec";
     }
-} 
+}
+
+void Container::setNewBorder(QRect canvas_border) {
+    for (auto i : container_) {
+        i->setCanvasBorser(canvas_border);
+    }
+}

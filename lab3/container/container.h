@@ -11,6 +11,7 @@ class Container {
     void add(Shape*);
     void removeSelected();
     void apply(Command*, std::list<Command*>&);
+    void setNewBorder(QRect);
     auto begin() {
         return container_.begin();
     }

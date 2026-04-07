@@ -2,8 +2,8 @@
 
 Ellipse::Ellipse() {};
 
-Ellipse::Ellipse(QPoint pos, int rx, int ry, QColor color) : Shape(pos, false, color), radius_x_(rx), radius_y_(ry) {
-    borders_ = QRect(pos.x() - rx, pos.y() - ry, 2 * rx, 2 * ry);
+Ellipse::Ellipse(QPoint pos, QRect canvas_border, int rx, int ry, QColor color) : Shape(pos, canvas_border, false, color), radius_x_(rx), radius_y_(ry) {
+    border_ = QRect(pos.x() - rx, pos.y() - ry, 2 * rx, 2 * ry);
 }
 
 bool Ellipse::hit(const QPoint pos) {
@@ -23,7 +23,7 @@ void Ellipse::draw(QPainter& painter) {
 }
 
 void Ellipse::updateShape() {
-    borders_ = QRect(center_.x() - radius_x_, center_.y() - radius_y_, 2 * radius_x_, 2 * radius_y_);
+    border_ = QRect(center_.x() - radius_x_, center_.y() - radius_y_, 2 * radius_x_, 2 * radius_y_);
 }
 
 void Ellipse::resize(int dx) {

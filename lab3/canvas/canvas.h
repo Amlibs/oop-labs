@@ -5,6 +5,7 @@
 #include <QPaintEvent>
 #include <QPoint>
 #include <QKeyEvent>
+#include <QResizeEvent>
 #include <list>
 
 #include "../factory/factory.h"
@@ -22,6 +23,7 @@ class CanvasWidget : public QWidget {
     void mousePressEvent(QMouseEvent*) override;
     void paintEvent(QPaintEvent*) override;
     void keyPressEvent(QKeyEvent*) override;
+    void resizeEvent(QResizeEvent*) override;
     
     QPoint coordinate_;
     Container container_;

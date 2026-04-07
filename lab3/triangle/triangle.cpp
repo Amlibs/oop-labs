@@ -1,14 +1,14 @@
 #include "triangle.h"
 #include <cmath>
 
-Triangle::Triangle(QPoint pos, double a, QColor color) : Shape(pos, false, color), length_(a) {
-    //qDebug() << a_ << center_;
+Triangle::Triangle(QPoint pos, QRect canvas_border, double a, QColor color) : Shape(pos, canvas_border, false, color), length_(a) {
+    //qDebug() << canvas_border;
     height_ = a * std::sqrt(3) / 2;
     a_ = QPoint(center_.x(), center_.y() - 2 * height_ / 3);
     b_ = QPoint(center_.x() - length_ / 2, center_.y() + height_ / 3);
     c_ = QPoint(center_.x() + length_ / 2, center_.y() + height_ / 3);
     polygon << a_ << b_ << c_ ;
-    borders_ = QRect(QPoint(b_.x(), b_.y() - height_), QSize((int)length_, (int)height_));
+    border_ = QRect(QPoint(b_.x(), b_.y() - height_), QSize((int)length_, (int)height_));
     //qDebug() << height_;
 }
 
@@ -30,7 +30,7 @@ void Triangle::updateShape() {
     //qDebug() << polygon;
     polygon.clear();
     polygon << a_ << b_ << c_ ;
-    borders_ = QRect(QPoint(b_.x(), b_.y() - height_), QSize((int)length_, (int)height_));
+    border_ = QRect(QPoint(b_.x(), b_.y() - height_), QSize((int)length_, (int)height_));
     //qDebug() << polygon; 
 }
 

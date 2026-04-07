@@ -8,5 +8,5 @@
 class Circle : public Ellipse{
  public:
     Circle();
-    Circle(QPoint pos, int r, QColor color) : Ellipse(pos, r, r, color) {};
+    Circle(QPoint pos, QRect canvas_border, int r, QColor color) : Ellipse(pos, canvas_border, r, r, color) {};
 };

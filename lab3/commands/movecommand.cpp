@@ -2,7 +2,7 @@
 
 MoveCommand::MoveCommand() : dx_(0), dy_(0), shape_(nullptr) {}
 
-MoveCommand::MoveCommand(int dx, int dy, const QRect& border) : dx_(dx), dy_(dy), shape_(nullptr), canvas_border_(border) {}
+MoveCommand::MoveCommand(int dx, int dy) : dx_(dx), dy_(dy), shape_(nullptr) {}
 
 bool MoveCommand::execute(Shape* shape) {
     shape_ = shape;
@@ -10,7 +10,7 @@ bool MoveCommand::execute(Shape* shape) {
         //qDebug() << "exec in comm";
         shape_->move(dx_, dy_);
         shape_->updateShape();
-        if (!canvas_border_.contains(shape_->getBorders())) {
+        if (!shape_->isValid()) {
             this->unexecute();
             return false;
         }
@@ -26,6 +26,6 @@ void MoveCommand::unexecute() {
 }
 
 Command* MoveCommand::clone() {
-    return new MoveCommand(dx_, dy_, canvas_border_);
+    return new MoveCommand(dx_, dy_);
 }
 

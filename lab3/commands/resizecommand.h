@@ -5,7 +5,7 @@
 class ResizeCommand : public Command {
  public:
     ResizeCommand();
-    ResizeCommand(int, const QRect&);
+    ResizeCommand(int);
     bool execute(Shape*) override;
 	void unexecute() override;
 	Command* clone() override;
@@ -13,5 +13,4 @@ class ResizeCommand : public Command {
  private:
     Shape* shape_;
     int dx_;
-    QRect canvas_border_;
 };

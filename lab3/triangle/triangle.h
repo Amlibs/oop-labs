@@ -9,7 +9,7 @@
 class Triangle : public Shape{
  public:
     Triangle();
-    Triangle(QPoint, double, QColor);
+    Triangle(QPoint, QRect, double, QColor);
     void setLength(int a) {
         length_ = a;
     }
@@ -20,9 +20,6 @@ class Triangle : public Shape{
     void draw(QPainter&) override;
     void updateShape() override;
     void resize(int) override;
-    QRect getBorders() override {
-        return borders_;
-    }
  protected:
     double length_;
     double height_;
@@ -30,5 +27,4 @@ class Triangle : public Shape{
     QPoint b_;
     QPoint c_;
     QPolygon polygon;
-    QRect borders_;
 };

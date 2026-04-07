@@ -21,7 +21,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
         }
     }
     if (!flag) {
-        Shape* shape = factory_->createShapes(coordinate_);
+        Shape* shape = factory_->createShapes(coordinate_, this->contentsRect());
         if (shape == nullptr) {
             //qDebug() << "nullptr";
             return;
@@ -46,22 +46,22 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
     Command* new_command = nullptr;
     QRect canvas_border = this->contentsRect();
     if (event->key() == Qt::Key_Left) {
-        new_command = new MoveCommand(-20, 0, canvas_border);
+        new_command = new MoveCommand(-20, 0);
     }
     if (event->key() == Qt::Key_Up) {
-        new_command = new MoveCommand(0, -20, canvas_border);
+        new_command = new MoveCommand(0, -20);
     }
     if (event->key() == Qt::Key_Right) {
-        new_command = new MoveCommand(20, 0, canvas_border);
+        new_command = new MoveCommand(20, 0);
     }
     if (event->key() == Qt::Key_Down) {
-        new_command = new MoveCommand(0, 20, canvas_border);
+        new_command = new MoveCommand(0, 20);
     }
     if (event->key() == Qt::Key_Plus) {
-        new_command = new ResizeCommand(5, canvas_border);
+        new_command = new ResizeCommand(5);
     }
     if (event->key() == Qt::Key_Minus) {
-        new_command = new ResizeCommand(-5, canvas_border);
+        new_command = new ResizeCommand(-5);
     }
     if (new_command != nullptr) {
         container_.apply(new_command, history);
@@ -83,6 +83,12 @@ void CanvasWidget::changeColor(QColor color) {
     if (new_command != nullptr) {
         container_.apply(new_command, history);
     }
+    update();
+}
+
+void CanvasWidget::resizeEvent(QResizeEvent* event) {
+    QWidget::resizeEvent(event);
+    container_.setNewBorder(this->contentsRect());
     update();
 }
 
