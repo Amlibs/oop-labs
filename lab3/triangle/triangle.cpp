@@ -21,3 +21,13 @@ bool Triangle::hit(const QPoint pos) {
     //qDebug() << polygon.containsPoint(pos, Qt::OddEvenFill);
     return polygon.containsPoint(pos, Qt::OddEvenFill);
 }
+
+void Triangle::updateShape() {
+    a_ = QPoint(center_.x(), center_.y() - 2 * height_ / 3);
+    b_ = QPoint(center_.x() - length_ / 2, center_.y() + height_ / 3);
+    c_ = QPoint(center_.x() + length_ / 2, center_.y() + height_ / 3);
+    //qDebug() << polygon;
+    polygon.clear();
+    polygon << a_ << b_ << c_ ;
+    //qDebug() << polygon; 
+}

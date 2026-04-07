@@ -19,3 +19,6 @@ void Ellipse::draw(QPainter& painter) {
     Shape::draw(painter);
     painter.drawEllipse(center_, radius_x_, radius_y_);
 }
+
+void Ellipse::updateShape() {
+}

@@ -28,4 +28,9 @@ bool Rectangle::hit(const QPoint pos) {
     return true;
 }
 
+void Rectangle::updateShape() {
+    x_ = center_.x() - length_ / 2;
+    y_ = center_.y() - height_ / 2;
+}
+
 

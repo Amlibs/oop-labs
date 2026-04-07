@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../shape/shape.h"
-#include <vector>
+#include "../commands/movecommand.h"
+//#include <vector>
 #include <list>
 
 class Container {
@@ -9,6 +10,7 @@ class Container {
     ~Container();
     void add(Shape*);
     void removeSelected();
+    void move(MoveCommand*);
     auto begin() {
         return container_.begin();
     }

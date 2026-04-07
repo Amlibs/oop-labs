@@ -17,6 +17,7 @@ class Rectangle : public Shape {
     }
     bool hit(const QPoint) override;
     void draw(QPainter&) override;
+    void updateShape() override;
  protected:
     int height_;
     int length_;

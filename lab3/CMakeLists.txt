@@ -27,6 +27,9 @@ qt_add_executable(qtlab3
     ./triangle/triangle.cpp
     ./factory/factory.h
     ./factory/factory.cpp
+    ./commands/command.h
+    ./commands/movecommand.h
+    ./commands/movecommand.cpp
 )
 
 target_link_libraries(qtlab3 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)

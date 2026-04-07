@@ -31,6 +31,14 @@ class Shape {
         }
     }
     virtual bool hit(QPoint const) = 0;
+    void move(int dx, int dy) {
+        //qDebug() << "shape move" << dx << dy;
+        center_ = QPoint(center_.x() + dx, center_.y() + dy);
+    }
+    virtual void updateShape() = 0;
+    void print() {
+        qDebug() << "tri" << center_;
+    }
  protected:
     QPoint center_;
     bool select_;

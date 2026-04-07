@@ -42,5 +42,32 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Delete) {
         container_.removeSelected();
     }
+    if (event->key() == Qt::Key_Left) {
+        MoveCommand* new_command = new MoveCommand(-20, 0);
+        container_.move(new_command);
+        history.push_back(new_command);
+    }
+    if (event->key() == Qt::Key_Up) {
+        MoveCommand* new_command = new MoveCommand(0, -20);
+        container_.move(new_command);
+        history.push_back(new_command);
+        //qDebug() << "UPUPUPUPUPUPUPUPUPUPUPU";
+    }
+    if (event->key() == Qt::Key_Right) {
+        MoveCommand* new_command = new MoveCommand(20, 0);
+        container_.move(new_command);
+        history.push_back(new_command);
+    }
+    if (event->key() == Qt::Key_Down) {
+        MoveCommand* new_command = new MoveCommand(0, 20);
+        container_.move(new_command);
+        history.push_back(new_command);
+    }
     update();
+}
+
+CanvasWidget::~CanvasWidget() {
+    for (auto i : history) {
+        delete i;
+    }
 }

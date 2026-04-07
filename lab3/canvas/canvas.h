@@ -5,12 +5,16 @@
 #include <QPaintEvent>
 #include <QPoint>
 #include <QKeyEvent>
+#include <list>
+
 #include "../factory/factory.h"
+#include "../commands/movecommand.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT
  public:
     CanvasWidget(Factory*);
+    ~CanvasWidget();
 
  private:
     void mousePressEvent(QMouseEvent*) override;
@@ -20,4 +24,5 @@ class CanvasWidget : public QWidget {
     QPoint coordinate_;
     Container container_;
     Factory* factory_;
+    std::list<Command*> history;
 };

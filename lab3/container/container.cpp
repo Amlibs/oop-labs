@@ -15,3 +15,16 @@ void Container::add(Shape* shape) {
 void Container::removeSelected() {
     container_.remove_if([](Shape* shape) {return shape->isSelected();});
 }
+
+void Container::move(MoveCommand* command) {
+    for (auto i : container_) {
+        if (!i->isSelected()) {
+            continue;
+        }
+        //i->print();
+        command->execute(i);
+        i->updateShape();
+        //i->print();
+        //qDebug() << "exec";
+    }
+} 

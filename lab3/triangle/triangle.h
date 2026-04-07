@@ -18,6 +18,7 @@ class Triangle : public Shape{
     }
     bool hit(const QPoint) override;
     void draw(QPainter&) override;
+    void updateShape() override;
  protected:
     double length_;
     double height_;

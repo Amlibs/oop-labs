@@ -17,6 +17,7 @@ class Ellipse : public Shape{
     }
     bool hit(const QPoint) override;
     void draw(QPainter&) override;
+    void updateShape() override;
  protected:
     int radius_x_;
     int radius_y_;
