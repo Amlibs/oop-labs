@@ -78,6 +78,14 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
     update();
 }
 
+void CanvasWidget::changeColor(QColor color) {
+    Command* new_command = new ChangeColorCommand(color);
+    if (new_command != nullptr) {
+        container_.apply(new_command, history);
+    }
+    update();
+}
+
 CanvasWidget::~CanvasWidget() {
     for (auto i : history) {
         delete i;

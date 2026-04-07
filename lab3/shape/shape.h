@@ -17,6 +17,12 @@ class Shape {
     void setCenter(QPoint point) {
         center_ = point;
     }
+    void setColor(QColor color) {
+        color_ = color;
+    }
+    QColor getColor() {
+        return color_;
+    }
     virtual void draw(QPainter& painter) {
         painter.setRenderHint(QPainter::Antialiasing);
         //qDebug() << select_;

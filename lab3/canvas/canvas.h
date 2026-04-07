@@ -10,12 +10,14 @@
 #include "../factory/factory.h"
 #include "../commands/movecommand.h"
 #include "../commands/resizecommand.h"
+#include "../commands/changecolorcommand.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT
  public:
     CanvasWidget(Factory*);
     ~CanvasWidget();
+    void changeColor(QColor);
  private:
     void mousePressEvent(QMouseEvent*) override;
     void paintEvent(QPaintEvent*) override;

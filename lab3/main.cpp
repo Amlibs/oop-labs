@@ -33,6 +33,7 @@ int main(int argc, char* argv[]) {
         QColor color = QColorDialog::getColor();
         if (color.isValid()) {
             factory->setColor(color);
+            canvas->changeColor(color);
         }
     });
 
