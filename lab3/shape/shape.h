@@ -36,9 +36,12 @@ class Shape {
         center_ = QPoint(center_.x() + dx, center_.y() + dy);
     }
     virtual void updateShape() = 0;
+    virtual QRect getBorders() = 0;
+
     void print() {
-        qDebug() << "tri" << center_;
+        qDebug() << "tri" << getBorders();
     }
+
  protected:
     QPoint center_;
     bool select_;

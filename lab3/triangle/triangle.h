@@ -19,6 +19,9 @@ class Triangle : public Shape{
     bool hit(const QPoint) override;
     void draw(QPainter&) override;
     void updateShape() override;
+    QRect getBorders() override {
+        return borders_;
+    }
  protected:
     double length_;
     double height_;
@@ -26,4 +29,5 @@ class Triangle : public Shape{
     QPoint b_;
     QPoint c_;
     QPolygon polygon;
+    QRect borders_;
 };

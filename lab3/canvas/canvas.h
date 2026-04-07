@@ -15,7 +15,6 @@ class CanvasWidget : public QWidget {
  public:
     CanvasWidget(Factory*);
     ~CanvasWidget();
-
  private:
     void mousePressEvent(QMouseEvent*) override;
     void paintEvent(QPaintEvent*) override;

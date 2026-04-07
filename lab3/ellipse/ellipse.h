@@ -18,7 +18,11 @@ class Ellipse : public Shape{
     bool hit(const QPoint) override;
     void draw(QPainter&) override;
     void updateShape() override;
+    QRect getBorders() override {
+        return borders_;
+    }
  protected:
     int radius_x_;
     int radius_y_;
+    QRect borders_;
 };

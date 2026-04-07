@@ -8,6 +8,7 @@ Triangle::Triangle(QPoint pos, double a, QColor color) : Shape(pos, false, color
     b_ = QPoint(center_.x() - length_ / 2, center_.y() + height_ / 3);
     c_ = QPoint(center_.x() + length_ / 2, center_.y() + height_ / 3);
     polygon << a_ << b_ << c_ ;
+    borders_ = QRect(QPoint(b_.x(), b_.y() - height_), QSize((int)length_, (int)height_));
     //qDebug() << height_;
 }
 
@@ -29,5 +30,6 @@ void Triangle::updateShape() {
     //qDebug() << polygon;
     polygon.clear();
     polygon << a_ << b_ << c_ ;
+    borders_ = QRect(QPoint(b_.x(), b_.y() - height_), QSize((int)length_, (int)height_));
     //qDebug() << polygon; 
 }

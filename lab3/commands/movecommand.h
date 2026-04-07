@@ -5,8 +5,8 @@
 class MoveCommand : public Command {
  public:
     MoveCommand();
-    MoveCommand(int, int);
-    void execute(Shape*) override;
+    MoveCommand(int, int, const QRect&);
+    bool execute(Shape*) override;
 	void unexecute() override;
 	Command* clone() override;
 	~MoveCommand() { };
@@ -14,4 +14,5 @@ class MoveCommand : public Command {
     Shape* shape_;
     int dx_;
     int dy_;
+    QRect canvas_border_;
 };
