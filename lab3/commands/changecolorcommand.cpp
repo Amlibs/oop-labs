@@ -17,6 +17,7 @@ bool ChangeColorCommand::execute(std::list<Shape*>& shapes) {
 }
 
 void ChangeColorCommand::unexecute() {
+    qDebug() << "try return color";
     if (!shapes_.empty()) {
         for (auto i : shapes_) {
             i.first->setColor(i.second);

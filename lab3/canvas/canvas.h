@@ -14,6 +14,8 @@
 #include "../commands/movecommand.h"
 #include "../commands/resizecommand.h"
 #include "../commands/changecolorcommand.h"
+#include "../commands/deletecommand.h"
+#include "../commands/createcommand.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT

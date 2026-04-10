@@ -34,6 +34,10 @@ qt_add_executable(qtlab3
     ./commands/resizecommand.cpp
     ./commands/changecolorcommand.h
     ./commands/changecolorcommand.cpp
+    ./commands/deletecommand.h
+    ./commands/deletecommand.cpp
+    ./commands/createcommand.h
+    ./commands/createcommand.cpp
     ./shapegroup/shapegroup.h
     ./shapegroup/shapegroup.cpp
 )

@@ -42,5 +42,8 @@ int main(int argc, char* argv[]) {
     });
 
     main_widget->show();
-    return app.exec();
+    int result = app.exec();
+    delete canvas;
+    delete factory;
+    return result;
 }

@@ -20,6 +20,9 @@ class Container {
     auto end() {
         return container_.end();
     }
+    std::list<Shape*>& getList() {
+        return container_;
+    }
  private:
     std::list<Shape*> container_;
 };

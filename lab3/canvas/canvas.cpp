@@ -24,12 +24,9 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
         }
     }
     if (!flag) {
-        Shape* shape = factory_->createShapes(coordinate_, this->contentsRect());
-        if (shape == nullptr) {
-            //qDebug() << "nullptr";
-            return;
-        }
-        container_.add(shape);
+        Command* command = new CreateCommand(factory_->createShapes(coordinate_, this->contentsRect()), container_.getList());
+        container_.apply(command, history);
+        qDebug() << "create";
     }
     update();
 }
@@ -43,11 +40,11 @@ void CanvasWidget::paintEvent(QPaintEvent* event) {
 }
 
 void CanvasWidget::keyPressEvent(QKeyEvent* event) {
-    if (event->key() == Qt::Key_Delete) {
-        container_.removeSelected();
-    }
     Command* new_command = nullptr;
     QRect canvas_border = this->contentsRect();
+    if (event->key() == Qt::Key_Delete) {
+        new_command = new DeleteCommand(container_.getList());
+    }
     if (event->key() == Qt::Key_Left) {
         new_command = new MoveCommand(-20, 0);
     }
@@ -113,6 +110,7 @@ void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) {
 }
 
 CanvasWidget::~CanvasWidget() {
+    qDebug() << "destructor in canvas";
     for (auto i : history) {
         delete i;
     }

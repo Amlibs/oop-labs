@@ -27,7 +27,9 @@ void Container::apply(Command* command, std::list<Command*>& history) {
     auto clone_comand = command->clone();
     qDebug() << "apply";
     if (!clone_comand->execute(container_)) {
+        qDebug() << "unapply";
         delete clone_comand;
+        return;
     }
     history.push_back(clone_comand);
 }
