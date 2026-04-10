@@ -6,12 +6,12 @@ class MoveCommand : public Command {
  public:
     MoveCommand();
     MoveCommand(int, int);
-    bool execute(Shape*) override;
+    bool execute(std::list<Shape*>&) override;
 	void unexecute() override;
 	Command* clone() override;
 	~MoveCommand() { };
  private:
-    Shape* shape_;
+    std::list<Shape*> shapes_;
     int dx_;
     int dy_;
 };

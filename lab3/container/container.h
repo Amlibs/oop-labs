@@ -2,6 +2,7 @@
 
 #include "../shape/shape.h"
 #include "../commands/movecommand.h"
+#include "../shapegroup/shapegroup.h"
 //#include <vector>
 #include <list>
 
@@ -12,6 +13,7 @@ class Container {
     void removeSelected();
     void apply(Command*, std::list<Command*>&);
     void setNewBorder(QRect);
+    void addInGroup(Group*);
     auto begin() {
         return container_.begin();
     }

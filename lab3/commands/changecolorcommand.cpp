@@ -2,18 +2,25 @@
 
 ChangeColorCommand::ChangeColorCommand(QColor color) : color_(color) {}
 
-bool ChangeColorCommand::execute(Shape* shape) {
-    shape_ = shape;
-    if (shape_ != nullptr) {
-        prev_color_ = shape_->getColor();
-        shape_->setColor(color_);
+bool ChangeColorCommand::execute(std::list<Shape*>& shapes) {
+    //shape_ = shape;
+    if (!shapes.empty()) {
+        for (auto i : shapes) {
+            if (!i->isSelected()) {
+                continue;
+            }
+            shapes_.push_back(std::make_pair(i, i->getColor()));
+            i->setColor(color_);
+        }
     }
     return true;
 }
 
 void ChangeColorCommand::unexecute() {
-    if (shape_ != nullptr) {
-        shape_->setColor(prev_color_);
+    if (!shapes_.empty()) {
+        for (auto i : shapes_) {
+            i.first->setColor(i.second);
+        }
     }
 }
 

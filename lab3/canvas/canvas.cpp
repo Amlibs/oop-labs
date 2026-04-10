@@ -9,6 +9,9 @@ CanvasWidget::CanvasWidget(Factory* factory) : factory_(factory) {
 }
 
 void CanvasWidget::mousePressEvent(QMouseEvent* event) {
+    if (event->button() == Qt::RightButton) {
+        return;
+    }
     coordinate_ = event->pos();
     bool isCtrlPressed = event->modifiers() & Qt::ControlModifier;
     bool flag = false;
@@ -33,7 +36,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
 
 void CanvasWidget::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
-    //qDebug() << this->rect();
+    //qDebug() << "Вызываю draw для всех";
     for (auto i : container_) {
         i->draw(painter);
     }
@@ -64,6 +67,7 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
         new_command = new ResizeCommand(-5);
     }
     if (new_command != nullptr) {
+        qDebug() << "call apply";
         container_.apply(new_command, history);
     }
     if (event->keyCombination() == QKeyCombination(Qt::CTRL, Qt::Key_Z)) {
@@ -89,6 +93,22 @@ void CanvasWidget::changeColor(QColor color) {
 void CanvasWidget::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
     container_.setNewBorder(this->contentsRect());
+    update();
+}
+
+void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) { 
+    QMenu menu(this);
+    QAction* group_action = menu.addAction("Сгруппировать");
+    QAction* ungroup_action = menu.addAction("Разгруппировать");
+    QAction* selected_action = menu.exec(event->globalPos());
+    if (selected_action == group_action) {
+        auto group = new Group(this->rect());
+        container_.addInGroup(group);
+    }
+    if (selected_action == ungroup_action) {
+        
+    }
+    //qDebug() << "update()";
     update();
 }
 

@@ -6,12 +6,11 @@ class ChangeColorCommand : public Command {
  public:
     ChangeColorCommand();
     ChangeColorCommand(QColor);
-    bool execute(Shape*) override;
+    bool execute(std::list<Shape*>&) override;
 	void unexecute() override;
 	Command* clone() override;
 	~ChangeColorCommand() { };
  private:
-    Shape* shape_;
+    std::list<std::pair<Shape*, QColor>> shapes_;
     QColor color_;
-    QColor prev_color_;
 };

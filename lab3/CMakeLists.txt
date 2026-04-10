@@ -34,6 +34,8 @@ qt_add_executable(qtlab3
     ./commands/resizecommand.cpp
     ./commands/changecolorcommand.h
     ./commands/changecolorcommand.cpp
+    ./shapegroup/shapegroup.h
+    ./shapegroup/shapegroup.cpp
 )
 
 target_link_libraries(qtlab3 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)

@@ -1,26 +1,36 @@
 #include "resizecommand.h"
 
-ResizeCommand::ResizeCommand() : dx_(0), shape_(nullptr) {}
+ResizeCommand::ResizeCommand() : dx_(0) {}
 
-ResizeCommand::ResizeCommand(int dx) : dx_(dx), shape_(nullptr) {}
+ResizeCommand::ResizeCommand(int dx) : dx_(dx) {}
 
-bool ResizeCommand::execute(Shape* shape) {
-    shape_ = shape;
-    if (shape_ != nullptr) {
-        shape_->resize(dx_);
-        shape_->updateShape();
-        if (!shape_->isValid()) {
-            this->unexecute();
-            return false;
+bool ResizeCommand::execute(std::list<Shape*>& shapes) {
+    //shape_ = shape;
+    if (!shapes.empty()) {
+
+        for (auto i : shapes) {
+            if (!i->isSelected()) {
+                continue;
+            }
+            shapes_.push_back(i);
+            //qDebug() << "exec in movecom";
+            i->resize(dx_);
+            i->updateShape();
+            if (!i->isValid()) {
+                this->unexecute();
+                return false;
+            }
         }
     }
     return true;
 }
 
 void ResizeCommand::unexecute() {
-    if (shape_ != nullptr) {
-        shape_->resize(-dx_);
-        shape_->updateShape();
+    if (!shapes_.empty()) {
+        for (auto i : shapes_) {
+            i->resize(-dx_);
+            i->updateShape();
+        }
     }
 }
 

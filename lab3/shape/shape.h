@@ -8,16 +8,17 @@ class Shape {
  public:
     Shape() : center_(QPoint(0, 0)), select_(false), color_(QColor::fromRgb(153, 255, 204)) {};
     Shape(QPoint center, QRect canvas_border, bool select, QColor color = QColor::fromRgb(153, 255, 204)) : center_(center), select_(select), canvas_border_(canvas_border), color_(color) {};
-    bool isSelected() {
+    virtual ~Shape() {}
+    virtual bool isSelected() {
         return select_;
     }
-    void setSelect(bool select) {
+    virtual void setSelect(bool select) {
         select_ = select;
     }
     void setCenter(QPoint point) {
         center_ = point;
     }
-    void setColor(QColor color) {
+    virtual void setColor(QColor color) {
         color_ = color;
     }
     void setCanvasBorser(QRect canvas_border) {
@@ -44,7 +45,7 @@ class Shape {
         }
     }
     virtual bool hit(QPoint const) = 0;
-    void move(int dx, int dy) {
+    virtual void move(int dx, int dy) {
         //qDebug() << "shape move" << dx << dy;
         center_ = QPoint(center_.x() + dx, center_.y() + dy);
     }
@@ -56,7 +57,7 @@ class Shape {
     }
 
     bool isValid() {
-        //qDebug() << canvas_border_.contains(border_) << border_ << canvas_border_;
+        qDebug() << canvas_border_.contains(border_) << border_ << canvas_border_;
         return canvas_border_.contains(border_);
     }
 

@@ -5,7 +5,7 @@ Container::~Container() {
     for (auto i : container_) {
         delete i;
     }
-    //qDebug() << "delete";
+    qDebug() << "delete";
 }
 
 void Container::add(Shape* shape) {
@@ -13,27 +13,45 @@ void Container::add(Shape* shape) {
 }
 
 void Container::removeSelected() {
-    container_.remove_if([](Shape* shape) {return shape->isSelected();});
+    container_.remove_if([=](Shape* shape) {
+        if (shape->isSelected()) {
+            delete shape;
+            shape = nullptr;
+            return true;
+        }
+        return false;
+    });
 }
 
 void Container::apply(Command* command, std::list<Command*>& history) {
-    for (auto i : container_) {
-        if (!i->isSelected()) {
-            continue;
-        }
-        auto clone_comand = command->clone();
-        if (!clone_comand->execute(i)) {
-            delete clone_comand;
-            continue;
-        }
-        history.push_back(clone_comand);
-        //i->print();
-        //qDebug() << "exec";
+    auto clone_comand = command->clone();
+    qDebug() << "apply";
+    if (!clone_comand->execute(container_)) {
+        delete clone_comand;
     }
+    history.push_back(clone_comand);
 }
 
 void Container::setNewBorder(QRect canvas_border) {
     for (auto i : container_) {
         i->setCanvasBorser(canvas_border);
     }
+}
+
+void Container::addInGroup(Group* group) {
+    bool added = false;
+    for (auto i : container_) {
+        if (!i->isSelected()) {
+            continue;
+        }
+        group->addShape(i);
+        container_.erase(std::find(container_.begin(), container_.end(), i));
+        added = true;
+    }
+    if (!added) {
+        return;
+    }
+    container_.push_back(group);
+    //qDebug() << "chto to dobavil" << container_;
+    //qDebug() << "chto to ubral" << container_;
 }

@@ -6,11 +6,11 @@ class ResizeCommand : public Command {
  public:
     ResizeCommand();
     ResizeCommand(int);
-    bool execute(Shape*) override;
+    bool execute(std::list<Shape*>&) override;
 	void unexecute() override;
 	Command* clone() override;
 	~ResizeCommand() { };
  private:
-    Shape* shape_;
+    std::list<Shape*> shapes_;
     int dx_;
 };
