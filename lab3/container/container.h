@@ -20,6 +20,12 @@ class Container {
     auto end() {
         return container_.end();
     }
+    auto rbegin() {
+        return container_.rbegin();
+    }
+    auto rend() {
+        return container_.rend();
+    }
     std::list<Shape*>& getList() {
         return container_;
     }

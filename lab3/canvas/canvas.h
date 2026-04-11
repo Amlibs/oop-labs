@@ -32,7 +32,8 @@ class CanvasWidget : public QWidget {
     void keyPressEvent(QKeyEvent*) override;
     void resizeEvent(QResizeEvent*) override;
     void contextMenuEvent(QContextMenuEvent*) override;
-    
+    bool hitInShape(Shape*, QPoint);
+
     QPoint coordinate_;
     Container container_;
     Factory* factory_;

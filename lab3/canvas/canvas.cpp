@@ -8,6 +8,10 @@ CanvasWidget::CanvasWidget(Factory* factory) : factory_(factory) {
     setFocusPolicy(Qt::StrongFocus);
 }
 
+bool CanvasWidget::hitInShape(Shape* i, QPoint coordinate) {
+    return i->hit(coordinate);
+} 
+
 void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::RightButton) {
         return;
@@ -15,16 +19,23 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     //qDebug() << event->pos();
     coordinate_ = event->pos();
     bool isCtrlPressed = event->modifiers() & Qt::ControlModifier;
-    bool flag = false;
-    //qDebug() << isCtrlPressed;
-    for (auto i : container_) {
-        bool hit = i->hit(coordinate_);
-        i->setSelect(i->isSelected() & isCtrlPressed || hit);
-        if (hit) {
-            flag = true;
+    bool haveSelect = container_.haveSelected();
+    if (!isCtrlPressed) {
+        for (auto i : container_) {
+            i->setSelect(false);
         }
     }
-    if (!flag) {
+    bool hit = false;
+    //qDebug() << isCtrlPressed;
+    for (auto it = container_.rbegin(); it != container_.rend(); it++) {
+        Shape* i = *it;
+        hit = hitInShape(i, coordinate_);
+        i->setSelect(i->isSelected() & isCtrlPressed || hit);
+        if (hit) {
+            break;
+        }
+    }
+    if (!hit && !haveSelect) {
         Command* command = new CreateCommand(factory_->createShapes(coordinate_, this->contentsRect()), container_.getList());
         container_.apply(command, history);
         //qDebug() << "create";
@@ -119,8 +130,17 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent* event) {
     if (event->button() == Qt::RightButton) {
         return;
     }
-
+    bool hit = false;
     QPoint release_pos = event->pos();
+    for (auto i : container_) { 
+        if (hitInShape(i, coordinate_) && i->isSelected()) {
+            hit = true;
+            break;
+        }
+    }
+    if (!hit) {
+        return;
+    }
     QPoint delta_point = release_pos - coordinate_;
     if (delta_point == QPoint(0,0)) return; 
     //qDebug() << "new move command create" << coordinate_ << release_pos;
