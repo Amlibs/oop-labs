@@ -38,6 +38,10 @@ qt_add_executable(qtlab3
     ./commands/deletecommand.cpp
     ./commands/createcommand.h
     ./commands/createcommand.cpp
+    ./commands/groupcommand.h
+    ./commands/groupcommand.cpp
+    ./commands/ungroupcommand.h
+    ./commands/ungroupcommand.cpp
     ./shapegroup/shapegroup.h
     ./shapegroup/shapegroup.cpp
 )

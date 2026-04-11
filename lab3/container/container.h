@@ -13,7 +13,7 @@ class Container {
     void removeSelected();
     void apply(Command*, std::list<Command*>&);
     void setNewBorder(QRect);
-    void addInGroup(Group*);
+    std::list<Shape*>::iterator find(Shape*);
     auto begin() {
         return container_.begin();
     }
@@ -22,6 +22,26 @@ class Container {
     }
     std::list<Shape*>& getList() {
         return container_;
+    }
+    bool haveSelectedGroup() {
+        bool have = false;
+        for (auto i : container_){
+            if (i->isGroup() && i->isSelected()) {
+                have = true;
+                break;
+            }
+        }
+        return have;
+    }
+    bool haveSelected() {
+        bool have = false;
+        for (auto i : container_){
+            if (i->isSelected()) {
+                have = true;
+                break;
+            }
+        }
+        return have;
     }
  private:
     std::list<Shape*> container_;

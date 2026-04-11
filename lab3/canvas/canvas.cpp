@@ -68,7 +68,7 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
         container_.apply(new_command, history);
     }
     if (event->keyCombination() == QKeyCombination(Qt::CTRL, Qt::Key_Z)) {
-        //qDebug() << "ctrl z";
+        qDebug() << "ctrl z";
         if (!history.empty()) {
             Command* first = history.back();
             history.pop_back();
@@ -96,14 +96,19 @@ void CanvasWidget::resizeEvent(QResizeEvent* event) {
 void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) { 
     QMenu menu(this);
     QAction* group_action = menu.addAction("Сгруппировать");
+    group_action->setEnabled(container_.haveSelected());
     QAction* ungroup_action = menu.addAction("Разгруппировать");
+    ungroup_action->setEnabled(container_.haveSelectedGroup());
     QAction* selected_action = menu.exec(event->globalPos());
     if (selected_action == group_action) {
         auto group = new Group(this->rect());
-        container_.addInGroup(group);
+        auto new_command = new GroupCommand(container_.getList(), group);
+        container_.apply(new_command, history);
     }
     if (selected_action == ungroup_action) {
-        
+        qDebug() << "ungroup";
+        auto new_command = new UnGroupCommand(container_.getList());
+        container_.apply(new_command, history);
     }
     //qDebug() << "update()";
     update();

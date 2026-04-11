@@ -101,3 +101,9 @@ void Group::setColor(QColor color) {
         i->setColor(color);
     }
 }
+
+std::list<Shape*> Group::returnAndClear() {
+    std::list<Shape*> temp = group_;
+    group_.clear();
+    return temp;
+}

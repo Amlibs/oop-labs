@@ -8,7 +8,9 @@ class Shape {
  public:
     Shape() : center_(QPoint(0, 0)), select_(false), color_(QColor::fromRgb(153, 255, 204)) {};
     Shape(QPoint center, QRect canvas_border, bool select, QColor color = QColor::fromRgb(153, 255, 204)) : center_(center), select_(select), canvas_border_(canvas_border), color_(color) {};
-    virtual ~Shape() {}
+    virtual ~Shape() {
+        //qDebug() << "delete base shape";
+    }
     virtual bool isSelected() {
         return select_;
     }
@@ -84,6 +86,10 @@ class Shape {
         move(dx, dy);
         updateShape();
         //qDebug() << center_;
+    }
+
+    virtual bool isGroup() {
+        return false;
     }
 
  protected:

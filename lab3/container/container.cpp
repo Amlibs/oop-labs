@@ -16,7 +16,6 @@ void Container::removeSelected() {
     container_.remove_if([=](Shape* shape) {
         if (shape->isSelected()) {
             delete shape;
-            shape = nullptr;
             return true;
         }
         return false;
@@ -39,7 +38,7 @@ void Container::setNewBorder(QRect canvas_border) {
         i->setCanvasBorser(canvas_border);
     }
 }
-
+/*
 void Container::addInGroup(Group* group) {
     bool added = false;
     for (auto i : container_) {
@@ -56,4 +55,4 @@ void Container::addInGroup(Group* group) {
     container_.push_back(group);
     //qDebug() << "chto to dobavil" << container_;
     //qDebug() << "chto to ubral" << container_;
-}
+}*/

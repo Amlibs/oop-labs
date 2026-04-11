@@ -17,7 +17,11 @@ class Group : public Shape {
     void resize(int) override;
     void updateShape() override;
     void addShape(Shape*);
-    void move(int, int);
+    std::list<Shape*> returnAndClear();
+    void move(int, int) override;
+    bool isGroup() override {
+        return true;
+    }
  private:
     void setBorderGroup();
     std::list<Shape*> group_;

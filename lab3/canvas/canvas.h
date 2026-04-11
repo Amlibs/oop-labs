@@ -16,6 +16,8 @@
 #include "../commands/changecolorcommand.h"
 #include "../commands/deletecommand.h"
 #include "../commands/createcommand.h"
+#include "../commands/groupcommand.h"
+#include "../commands/ungroupcommand.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT
