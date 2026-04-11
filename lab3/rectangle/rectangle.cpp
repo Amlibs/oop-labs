@@ -40,4 +40,8 @@ void Rectangle::resize(int dx) {
     length_ += dx;
 }
 
+bool Rectangle::isPositiveLenght() {
+    return height_ > 0 && length_ > 0;
+}
+
 

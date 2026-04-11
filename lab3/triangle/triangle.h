@@ -20,6 +20,7 @@ class Triangle : public Shape{
     void draw(QPainter&) override;
     void updateShape() override;
     void resize(int) override;
+    bool isPositiveLenght() override;
  protected:
     double length_;
     double height_;

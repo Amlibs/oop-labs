@@ -29,4 +29,9 @@ void Ellipse::updateShape() {
 void Ellipse::resize(int dx) {
     radius_x_ += dx;
     radius_y_ += dx;
+    qDebug() << radius_x_ << radius_y_;
+}
+
+bool Ellipse::isPositiveLenght() {
+    return radius_x_ > 0 && radius_y_ > 0;
 }

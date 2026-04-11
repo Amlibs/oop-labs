@@ -12,6 +12,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::RightButton) {
         return;
     }
+    //qDebug() << event->pos();
     coordinate_ = event->pos();
     bool isCtrlPressed = event->modifiers() & Qt::ControlModifier;
     bool flag = false;
@@ -26,7 +27,7 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     if (!flag) {
         Command* command = new CreateCommand(factory_->createShapes(coordinate_, this->contentsRect()), container_.getList());
         container_.apply(command, history);
-        qDebug() << "create";
+        //qDebug() << "create";
     }
     update();
 }
@@ -64,11 +65,11 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
         new_command = new ResizeCommand(-5);
     }
     if (new_command != nullptr) {
-        qDebug() << "call apply";
+        //qDebug() << "call apply";
         container_.apply(new_command, history);
     }
     if (event->keyCombination() == QKeyCombination(Qt::CTRL, Qt::Key_Z)) {
-        qDebug() << "ctrl z";
+        //qDebug() << "ctrl z";
         if (!history.empty()) {
             Command* first = history.back();
             history.pop_back();
@@ -106,7 +107,7 @@ void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) {
         container_.apply(new_command, history);
     }
     if (selected_action == ungroup_action) {
-        qDebug() << "ungroup";
+        //qDebug() << "ungroup";
         auto new_command = new UnGroupCommand(container_.getList());
         container_.apply(new_command, history);
     }
@@ -114,8 +115,22 @@ void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) {
     update();
 }
 
+void CanvasWidget::mouseReleaseEvent(QMouseEvent* event) {
+    if (event->button() == Qt::RightButton) {
+        return;
+    }
+
+    QPoint release_pos = event->pos();
+    QPoint delta_point = release_pos - coordinate_;
+    if (delta_point == QPoint(0,0)) return; 
+    //qDebug() << "new move command create" << coordinate_ << release_pos;
+    auto new_command = new MoveCommand(delta_point.x(), delta_point.y());
+    container_.apply(new_command, history);
+    update();
+}
+
 CanvasWidget::~CanvasWidget() {
-    qDebug() << "destructor in canvas";
+    //qDebug() << "destructor in canvas";
     for (auto i : history) {
         delete i;
     }

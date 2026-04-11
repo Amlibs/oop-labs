@@ -38,3 +38,7 @@ void Triangle::resize(int dx) {
     length_ += dx;
     height_ = length_ * std::sqrt(3) / 2;
 }
+
+bool Triangle::isPositiveLenght() {
+    return length_ > 0 && height_ > 0;
+}

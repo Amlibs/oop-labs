@@ -42,6 +42,14 @@ void Group::resize(int x) {
     }
 }
 
+bool Group::isPositiveLenght() {
+    bool flag = true;
+    for (auto i : group_) {
+        flag = i->isPositiveLenght() && flag;
+    }
+    return flag;
+}
+
 void Group::updateShape() {
     for (auto i : group_) {
         i->updateShape();

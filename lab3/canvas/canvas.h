@@ -27,6 +27,7 @@ class CanvasWidget : public QWidget {
     void changeColor(QColor);
  private:
     void mousePressEvent(QMouseEvent*) override;
+    void mouseReleaseEvent(QMouseEvent*) override;
     void paintEvent(QPaintEvent*) override;
     void keyPressEvent(QKeyEvent*) override;
     void resizeEvent(QResizeEvent*) override;

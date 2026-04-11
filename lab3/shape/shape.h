@@ -53,13 +53,14 @@ class Shape {
     }
     virtual void updateShape() = 0;
     virtual void resize(int) = 0;
+    virtual bool isPositiveLenght() = 0;
 
     void print() {
-        qDebug() << "tri" << getBorder();
+        qDebug() << "tri" << center_;
     }
 
     bool isValid() {
-        qDebug() << canvas_border_.contains(border_) << border_ << canvas_border_;
+        //qDebug() << canvas_border_.contains(border_) << border_ << canvas_border_;
         return canvas_border_.contains(border_);
     }
 

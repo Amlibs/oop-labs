@@ -15,6 +15,7 @@ class Group : public Shape {
     bool hit(QPoint) override;
     void draw(QPainter&) override;
     void resize(int) override;
+    bool isPositiveLenght() override;
     void updateShape() override;
     void addShape(Shape*);
     std::list<Shape*> returnAndClear();

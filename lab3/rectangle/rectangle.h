@@ -19,6 +19,7 @@ class Rectangle : public Shape {
     void draw(QPainter&) override;
     void updateShape() override;
     void resize(int) override;
+    bool isPositiveLenght() override;
  protected:
     int height_;
     int length_;

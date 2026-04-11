@@ -24,9 +24,9 @@ void Container::removeSelected() {
 
 void Container::apply(Command* command, std::list<Command*>& history) {
     auto clone_comand = command->clone();
-    qDebug() << "apply";
+    //qDebug() << "apply";
     if (!clone_comand->execute(container_)) {
-        qDebug() << "unapply";
+        //qDebug() << "unapply";
         delete clone_comand;
         return;
     }

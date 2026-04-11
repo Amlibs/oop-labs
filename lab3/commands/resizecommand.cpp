@@ -7,7 +7,6 @@ ResizeCommand::ResizeCommand(int dx) : dx_(dx) {}
 bool ResizeCommand::execute(std::list<Shape*>& shapes) {
     //shape_ = shape;
     if (!shapes.empty()) {
-
         for (auto i : shapes) {
             if (!i->isSelected()) {
                 continue;
@@ -16,7 +15,8 @@ bool ResizeCommand::execute(std::list<Shape*>& shapes) {
             //qDebug() << "exec in movecom";
             i->resize(dx_);
             i->updateShape();
-            if (!i->isValid()) {
+            i->print();
+            if (!i->isValid() || !i->isPositiveLenght()) {
                 this->unexecute();
                 return false;
             }
@@ -26,6 +26,7 @@ bool ResizeCommand::execute(std::list<Shape*>& shapes) {
 }
 
 void ResizeCommand::unexecute() {
+    qDebug() << "unresize";
     if (!shapes_.empty()) {
         for (auto i : shapes_) {
             i->resize(-dx_);

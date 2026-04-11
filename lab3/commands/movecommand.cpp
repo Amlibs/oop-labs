@@ -6,11 +6,13 @@ MoveCommand::MoveCommand(int dx, int dy) : dx_(dx), dy_(dy) {}
 
 bool MoveCommand::execute(std::list<Shape*>& shapes) {
     //shape_ = shape;
+    bool flag = false;
     if (!shapes.empty()) {
         for (auto i : shapes) {
             if (!i->isSelected()) {
                 continue;
             }
+            flag = true;
             shapes_.push_back(i);
             //qDebug() << "exec in movecom";
             i->move(dx_, dy_);
@@ -20,11 +22,13 @@ bool MoveCommand::execute(std::list<Shape*>& shapes) {
                 return false;
             }
         }
+        return flag;
     }
-    return true;
+    return false;
 }
 
 void MoveCommand::unexecute() {
+    qDebug() << "unmove";
     if (!shapes_.empty()) {
         for (auto i : shapes_) {
             i->move(-dx_, -dy_);

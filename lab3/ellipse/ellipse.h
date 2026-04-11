@@ -19,6 +19,7 @@ class Ellipse : public Shape{
     void draw(QPainter&) override;
     void updateShape() override;
     void resize(int) override;
+    bool isPositiveLenght() override;
  protected:
     int radius_x_;
     int radius_y_;
