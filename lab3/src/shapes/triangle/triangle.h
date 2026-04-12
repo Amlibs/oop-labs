@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QDebug>
 #include <QPolygon>
-#include "../shape/shape.h"
+#include "shape.h"
 
 class Triangle : public Shape{
  public:

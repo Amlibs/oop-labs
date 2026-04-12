@@ -1,7 +1,7 @@
 #pragma once
 
 #include "command.h"
-#include "../shapegroup/shapegroup.h"
+#include "shapegroup.h"
 
 class UnGroupCommand : public Command {
  public:

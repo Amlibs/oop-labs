@@ -2,12 +2,12 @@
 
 #include <QColor>
 #include <QPoint>
-#include "../circle/circle.h"
+#include "circle.h"
 #include "../container/container.h"
-#include "../rectangle/rectangle.h"
-#include "../square/square.h"
-#include "../ellipse/ellipse.h"
-#include "../triangle/triangle.h"
+#include "rectangle.h"
+#include "square.h"
+#include "ellipse.h"
+#include "triangle.h"
 #include "../shapetype.h"
 
 class Factory {

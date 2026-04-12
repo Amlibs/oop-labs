@@ -2,7 +2,7 @@
 
 #include <list>
 
-#include "../shape/shape.h"
+#include "shape.h"
 
 class Command {
  public:

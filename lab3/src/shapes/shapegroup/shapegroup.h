@@ -3,7 +3,7 @@
 #include <list>
 #include <algorithm>
 
-#include "../shape/shape.h"
+#include "shape.h"
 
 class Group : public Shape {
  public:

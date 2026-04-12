@@ -3,7 +3,7 @@
 #include <QPoint>
 #include <QPainter>
 #include <QDebug>
-#include "../shape/shape.h"
+#include "shape.h"
 
 class Ellipse : public Shape{
  public:

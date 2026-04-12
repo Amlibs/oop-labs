@@ -11,13 +11,13 @@
 #include <list>
 
 #include "../factory/factory.h"
-#include "../commands/movecommand.h"
-#include "../commands/resizecommand.h"
-#include "../commands/changecolorcommand.h"
-#include "../commands/deletecommand.h"
-#include "../commands/createcommand.h"
-#include "../commands/groupcommand.h"
-#include "../commands/ungroupcommand.h"
+#include "movecommand.h"
+#include "resizecommand.h"
+#include "changecolorcommand.h"
+#include "deletecommand.h"
+#include "createcommand.h"
+#include "groupcommand.h"
+#include "ungroupcommand.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT

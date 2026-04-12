@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../shape/shape.h"
-#include "../commands/movecommand.h"
-#include "../shapegroup/shapegroup.h"
+#include "shape.h"
+#include "movecommand.h"
+#include "shapegroup.h"
 //#include <vector>
 #include <list>
 

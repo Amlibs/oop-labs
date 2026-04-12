@@ -8,47 +8,12 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Core Gui)
 
 qt_standard_project_setup()
 
-qt_add_executable(qtlab3
-    main.cpp
-    ./canvas/canvas.h
-    ./canvas/canvas.cpp
-    ./circle/circle.h
-    ./circle/circle.cpp
-    ./container/container.h
-    ./container/container.cpp
-    ./shape/shape.h
-    ./rectangle/rectangle.h
-    ./rectangle/rectangle.cpp
-    ./square/square.h
-    ./square/square.cpp
-    ./ellipse/ellipse.h
-    ./ellipse/ellipse.cpp
-    ./triangle/triangle.h
-    ./triangle/triangle.cpp
-    ./factory/factory.h
-    ./factory/factory.cpp
-    ./commands/command.h
-    ./commands/movecommand.h
-    ./commands/movecommand.cpp
-    ./commands/resizecommand.h
-    ./commands/resizecommand.cpp
-    ./commands/changecolorcommand.h
-    ./commands/changecolorcommand.cpp
-    ./commands/deletecommand.h
-    ./commands/deletecommand.cpp
-    ./commands/createcommand.h
-    ./commands/createcommand.cpp
-    ./commands/groupcommand.h
-    ./commands/groupcommand.cpp
-    ./commands/ungroupcommand.h
-    ./commands/ungroupcommand.cpp
-    ./shapegroup/shapegroup.h
-    ./shapegroup/shapegroup.cpp
-)
-
-target_link_libraries(qtlab3 PRIVATE Qt6::Widgets Qt6::Core Qt6::Gui)
-
-
-set_target_properties(qtlab3 PROPERTIES
-    WIN32_EXECUTABLE OFF
-)
+add_subdirectory(app)
+add_subdirectory(src/commands)
+add_subdirectory(src/interfaces)
+add_subdirectory(src/shapes/triangle)
+add_subdirectory(src/shapes/rectangle)
+add_subdirectory(src/shapes/square)
+add_subdirectory(src/shapes/ellipse)
+add_subdirectory(src/shapes/circle)
+add_subdirectory(src/shapes/shapegroup)  
