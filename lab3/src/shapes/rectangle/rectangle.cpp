@@ -44,4 +44,20 @@ bool Rectangle::isPositiveLenght() {
     return height_ > 0 && length_ > 0;
 }
 
+void Rectangle::save(QTextStream& stream) {
+    QString temp = QString("%1 %2 %3").arg(length_).arg(height_).arg(color_.name());
+    stream << getDataForFile() << ' ' << temp << '\n';
+}
+
+void Rectangle::load(QStringList& line) {
+    Shape::load(line);
+    length_ = line[7].toInt();
+    height_ = line[8].toInt();
+    updateShape();
+}
+
+QString Rectangle::type() {
+    return "rectangle";
+}
+
 

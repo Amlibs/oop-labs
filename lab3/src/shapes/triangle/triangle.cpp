@@ -42,3 +42,17 @@ void Triangle::resize(int dx) {
 bool Triangle::isPositiveLenght() {
     return length_ > 0 && height_ > 0;
 }
+
+void Triangle::save(QTextStream& stream) {
+    QString temp = QString("%1 %2 %3").arg(length_).arg(height_).arg(color_.name());
+    stream << getDataForFile() << ' ' << temp << '\n';
+}
+
+void Triangle::load(QStringList& line) {
+    Shape::load(line);
+    length_ = line[7].toInt();
+    height_ = line[8].toDouble();
+    updateShape();
+}
+
+QString Triangle::type() { return "triangle"; }

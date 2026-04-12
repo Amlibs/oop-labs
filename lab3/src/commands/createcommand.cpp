@@ -14,7 +14,7 @@ bool CreateCommand::execute(std::list<Shape*>& shapes) {
 void CreateCommand::unexecute() {
     it_ = std::find(container_.begin(), container_.end(), shape_);
     if (it_ != container_.end() && *it_ != nullptr) {
-        qDebug() << "asdasd";
+        //qDebug() << "asdasd";
         container_.erase(it_);
         delete *it_;
     }

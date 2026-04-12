@@ -20,6 +20,9 @@ class Group : public Shape {
     void addShape(Shape*);
     std::list<Shape*> returnAndClear();
     void move(int, int) override;
+    void save(QTextStream&) override;
+    void load(QStringList&) override;
+    QString type() override;
     bool isGroup() override {
         return true;
     }

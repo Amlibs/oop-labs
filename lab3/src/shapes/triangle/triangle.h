@@ -8,7 +8,7 @@
 
 class Triangle : public Shape{
  public:
-    Triangle();
+    Triangle() {};
     Triangle(QPoint, QRect, double, QColor);
     void setLength(int a) {
         length_ = a;
@@ -21,6 +21,9 @@ class Triangle : public Shape{
     void updateShape() override;
     void resize(int) override;
     bool isPositiveLenght() override;
+    void save(QTextStream&) override;
+    void load(QStringList&) override;
+    QString type() override;
  protected:
     double length_;
     double height_;

@@ -3,6 +3,8 @@
 #include <QPoint>
 #include <QPainter>
 #include <QDebug>
+#include <QString>
+#include <QFile>
 
 class Shape {
  public:
@@ -54,6 +56,23 @@ class Shape {
     virtual void updateShape() = 0;
     virtual void resize(int) = 0;
     virtual bool isPositiveLenght() = 0;
+    virtual void save(QTextStream&) = 0;
+    virtual void load(QStringList& line) {
+        center_ = QPoint(line[1].toInt(), line[2].toInt());
+        canvas_border_ = QRect(line[3].toInt(), line[4].toInt(), line[5].toInt(), line[6].toInt());
+        color_ = line[line.size() - 1];
+    };
+    virtual QString type() = 0;
+    virtual QString getDataForFile() {
+        return QString("%1 %2 %3 %4 %5 %6 %7")
+        .arg(type())
+        .arg(center_.x())
+        .arg(center_.y())
+        .arg(canvas_border_.x())
+        .arg(canvas_border_.y())
+        .arg(canvas_border_.width())
+        .arg(canvas_border_.height());
+    };
 
     void print() {
         qDebug() << "tri" << center_;

@@ -115,3 +115,18 @@ std::list<Shape*> Group::returnAndClear() {
     group_.clear();
     return temp;
 }
+
+void Group::save(QTextStream& stream) {
+    stream << type() << ' ' << group_.size() << ' ' << canvas_border_.width() << ' ' << canvas_border_.height() << '\n';
+    for (auto i : group_) {
+        i->save(stream);
+    }
+}
+
+void Group::load(QStringList& line) {
+    return;
+}
+
+QString Group::type() {
+    return "group";
+}

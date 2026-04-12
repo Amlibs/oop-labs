@@ -99,6 +99,15 @@ void CanvasWidget::changeColor(QColor color) {
     update();
 }
 
+void CanvasWidget::saveAllShapes(QString file_name) {
+    container_.saveAll(file_name);
+}
+
+void CanvasWidget::loadShapes(QString file_name) {
+    container_.loadAll(file_name, factory_);
+    update();
+}
+
 void CanvasWidget::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
     container_.setNewBorder(this->contentsRect());

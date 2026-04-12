@@ -8,9 +8,11 @@
 #include <QResizeEvent>
 #include <QContextMenuEvent>
 #include <QMenu>
+#include <QString>
 #include <list>
 
 #include "../factory/factory.h"
+#include "../container/container.h"
 #include "movecommand.h"
 #include "resizecommand.h"
 #include "changecolorcommand.h"
@@ -25,6 +27,8 @@ class CanvasWidget : public QWidget {
     CanvasWidget(Factory*);
     ~CanvasWidget();
     void changeColor(QColor);
+    void saveAllShapes(QString);
+    void loadShapes(QString);
  private:
     void mousePressEvent(QMouseEvent*) override;
     void mouseReleaseEvent(QMouseEvent*) override;

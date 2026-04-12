@@ -2,10 +2,10 @@ qt_add_executable(main
     main.cpp
     ./canvas/canvas.h
     ./canvas/canvas.cpp
-    ./container/container.h
-    ./container/container.cpp
     ./factory/factory.h
     ./factory/factory.cpp
+    ./container/container.h
+    ./container/container.cpp
     shapetype.h
 )
 

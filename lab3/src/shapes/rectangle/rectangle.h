@@ -20,6 +20,9 @@ class Rectangle : public Shape {
     void updateShape() override;
     void resize(int) override;
     bool isPositiveLenght() override;
+    void save(QTextStream&) override;
+    void load(QStringList&) override;
+    QString type() override;
  protected:
     int height_;
     int length_;

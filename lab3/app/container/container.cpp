@@ -38,6 +38,38 @@ void Container::setNewBorder(QRect canvas_border) {
         i->setCanvasBorser(canvas_border);
     }
 }
+
+void Container::saveAll(QString file_name) {
+    QFile file(file_name);
+    if (file.open(QIODevice::WriteOnly)) {
+        QTextStream stream(&file);
+        stream << container_.size() << '\n';
+        for (auto i : container_) {
+            i->save(stream);
+        }
+    }
+    file.close();
+}
+
+void Container::loadAll(QString file_name, Factory* factory) {
+    QFile file(file_name);
+    if (file.open(QIODevice::ReadOnly)) {
+        QTextStream stream(&file);
+        QString count = stream.readLine().trimmed();
+        qDebug() << count;
+        int cnt = count.toInt();
+        for (int i = 0; i < cnt; i++) {
+            Shape* shape = factory->createShapesFromFile(stream);
+            if (shape == nullptr) {
+                QMessageBox::critical(nullptr, "Ошибка", "Файл с неправильным форматом данных");
+                return;
+            }
+            container_.push_back(shape);
+        }
+    }
+    file.close();
+}
+
 /*
 void Container::addInGroup(Group* group) {
     bool added = false;

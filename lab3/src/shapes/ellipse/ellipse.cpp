@@ -35,3 +35,19 @@ void Ellipse::resize(int dx) {
 bool Ellipse::isPositiveLenght() {
     return radius_x_ > 0 && radius_y_ > 0;
 }
+
+void Ellipse::save(QTextStream& stream) {
+    QString temp = QString("%1 %2 %3").arg(radius_x_).arg(radius_y_).arg(color_.name());
+    stream << getDataForFile() << ' ' << temp << '\n';
+}
+
+void Ellipse::load(QStringList& line) {
+    Shape::load(line);
+    radius_x_ = line[7].toDouble();
+    radius_y_ = line[8].toDouble();
+    updateShape();
+}
+
+QString Ellipse::type() {
+    return "ellipse";
+}
