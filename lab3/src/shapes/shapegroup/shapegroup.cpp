@@ -34,6 +34,8 @@ void Group::draw(QPainter& painter) {
     painter.setPen(pen);
     painter.setBrush(Qt::NoBrush);
     painter.drawRect(border_);
+
+    drawResizeRect(painter);
 }
 
 void Group::resize(int x) {
@@ -60,6 +62,7 @@ void Group::updateShape() {
 void Group::addShape(Shape* shape) {
     group_.push_back(shape);
     setBorderGroup();
+    shape->setInGroup(true);
 }
 
 void Group::move(int dx, int dy) {
@@ -111,6 +114,9 @@ void Group::setColor(QColor color) {
 }
 
 std::list<Shape*> Group::returnAndClear() {
+    for (auto i : group_) {
+        i->setInGroup(false);
+    }
     std::list<Shape*> temp = group_;
     group_.clear();
     return temp;

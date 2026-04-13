@@ -34,14 +34,18 @@ class CanvasWidget : public QWidget {
  private:
     void mousePressEvent(QMouseEvent*) override;
     void mouseReleaseEvent(QMouseEvent*) override;
+    void mouseMoveEvent(QMouseEvent*) override;
     void paintEvent(QPaintEvent*) override;
     void keyPressEvent(QKeyEvent*) override;
     void resizeEvent(QResizeEvent*) override;
     void contextMenuEvent(QContextMenuEvent*) override;
     bool hitInShape(Shape*, QPoint);
+    bool hitInResizeRect(Shape*, QPoint);
 
     QPoint coordinate_;
     Container container_;
     Factory* factory_;
+    bool diag_cursor_ = false;
+    bool move_cursor = true;
     std::list<Command*> history;
 };

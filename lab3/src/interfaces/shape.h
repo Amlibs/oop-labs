@@ -37,13 +37,14 @@ class Shape {
     }
     virtual void draw(QPainter& painter) {
         painter.setRenderHint(QPainter::Antialiasing);
+        painter.setBrush(QBrush(color_, Qt::SolidPattern));
         //qDebug() << select_;
         if (!select_) {
-            painter.setBrush(QBrush(color_, Qt::SolidPattern));
+            
             painter.setPen(QColor::fromRgb(0, 204, 102));
             //qDebug() << "Hello rect";
         } else {
-            painter.setBrush(QBrush(color_, Qt::SolidPattern));
+            if (!in_group) drawResizeRect(painter);
             painter.setPen(QColor::fromRgb(0, 0, 204));
             //qDebug() << "Hello ctrl rect";
         }
@@ -112,10 +113,28 @@ class Shape {
         return false;
     }
 
+    void drawResizeRect(QPainter& painter) {
+        QRect rect = getResizeRect();
+        auto brush = painter.brush();
+        painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));
+        painter.setPen(Qt::NoPen);
+        painter.drawRect(rect);
+        painter.setBrush(brush);
+    }
+
+    QRect getResizeRect() {
+        return QRect(border_.x(), border_.y(), -8, -8);
+    }
+
+    void setInGroup(bool b) {
+        in_group = b;
+    }
+
  protected:
     QPoint center_;
     bool select_;
     QColor color_;
     QRect canvas_border_;
     QRect border_;
+    bool in_group = false;
 };

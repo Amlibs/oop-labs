@@ -6,10 +6,15 @@
 
 CanvasWidget::CanvasWidget(Factory* factory) : factory_(factory) {
     setFocusPolicy(Qt::StrongFocus);
+    //setMouseTracking(true);
 }
 
 bool CanvasWidget::hitInShape(Shape* i, QPoint coordinate) {
     return i->hit(coordinate);
+}
+
+bool CanvasWidget::hitInResizeRect(Shape* i, QPoint coordinate) {
+    return i->getResizeRect().contains(coordinate);
 } 
 
 void CanvasWidget::mousePressEvent(QMouseEvent* event) {
@@ -30,8 +35,15 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     for (auto it = container_.rbegin(); it != container_.rend(); it++) {
         Shape* i = *it;
         hit = hitInShape(i, coordinate_);
-        i->setSelect(i->isSelected() & isCtrlPressed || hit);
+        bool hit_in_resizerect = hitInResizeRect(i, coordinate_);
+        i->setSelect(i->isSelected() & isCtrlPressed || hit || hit_in_resizerect);
+        if (hit_in_resizerect) {
+            move_cursor = false;
+            diag_cursor_ = true;
+        }
         if (hit) {
+            move_cursor = true;
+            diag_cursor_ = false;
             break;
         }
     }
@@ -54,26 +66,30 @@ void CanvasWidget::paintEvent(QPaintEvent* event) {
 void CanvasWidget::keyPressEvent(QKeyEvent* event) {
     Command* new_command = nullptr;
     QRect canvas_border = this->contentsRect();
-    if (event->key() == Qt::Key_Delete) {
+    switch (event->key()) {
+    case Qt::Key_Delete:
         new_command = new DeleteCommand(container_.getList());
-    }
-    if (event->key() == Qt::Key_Left) {
+        break;
+    case Qt::Key_Left:
         new_command = new MoveCommand(-20, 0);
-    }
-    if (event->key() == Qt::Key_Up) {
+        break;
+    case Qt::Key_Up:
         new_command = new MoveCommand(0, -20);
-    }
-    if (event->key() == Qt::Key_Right) {
+        break;
+    case Qt::Key_Right:
         new_command = new MoveCommand(20, 0);
-    }
-    if (event->key() == Qt::Key_Down) {
+        break;
+    case Qt::Key_Down:
         new_command = new MoveCommand(0, 20);
-    }
-    if (event->key() == Qt::Key_Plus) {
+        break;
+    case Qt::Key_Plus:
         new_command = new ResizeCommand(5);
-    }
-    if (event->key() == Qt::Key_Minus) {
+        break;
+    case Qt::Key_Minus:
         new_command = new ResizeCommand(-5);
+        break;
+    default:
+        break;
     }
     if (new_command != nullptr) {
         //qDebug() << "call apply";
@@ -154,11 +170,13 @@ void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) {
         auto group = new Group(this->rect());
         auto new_command = new GroupCommand(container_.getList(), group);
         container_.apply(new_command, history);
+        delete new_command;
     }
     if (selected_action == ungroup_action) {
         //qDebug() << "ungroup";
         auto new_command = new UnGroupCommand(container_.getList());
         container_.apply(new_command, history);
+        delete new_command;
     }
     //qDebug() << "update()";
     update();
@@ -170,20 +188,57 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent* event) {
     }
     bool hit = false;
     QPoint release_pos = event->pos();
-    for (auto i : container_) { 
-        if (hitInShape(i, coordinate_) && i->isSelected()) {
-            hit = true;
+    Command* new_command;
+    if (diag_cursor_ == true) {
+        QPoint delta_point = release_pos - coordinate_;
+        if (delta_point == QPoint(0,0)) return; 
+        //qDebug() << "new move command create" << coordinate_ << release_pos;
+        new_command = new ResizeCommand(-delta_point.x());
+        container_.apply(new_command, history);
+        diag_cursor_ = false;
+        setCursor(Qt::ArrowCursor);
+    } else {
+        for (auto i : container_) { 
+            if (hitInShape(i, coordinate_) && i->isSelected()) {
+                hit = true;
+                break;
+            }
+        }
+        if (!hit) {
+            return;
+        }
+        QPoint delta_point = release_pos - coordinate_;
+        if (delta_point == QPoint(0,0)) return; 
+        //qDebug() << "new move command create" << coordinate_ << release_pos;
+        new_command = new MoveCommand(delta_point.x(), delta_point.y());
+        container_.apply(new_command, history);
+    }
+    delete new_command;
+    update();
+}
+
+void CanvasWidget::mouseMoveEvent(QMouseEvent* event) {
+    if (move_cursor) {
+        return;
+    }
+    QPoint coordinate = event->pos();
+    //qDebug() << coordinate;
+    Shape* hit_shape = nullptr;
+    for (auto i : container_) {
+        if (i->isSelected()) {
+            hit_shape = i;
             break;
         }
     }
-    if (!hit) {
-        return;
+    if (hit_shape != nullptr && hitInResizeRect(hit_shape, coordinate)) {
+        diag_cursor_ = true;
+        //qDebug() << "popali";
     }
-    QPoint delta_point = release_pos - coordinate_;
-    if (delta_point == QPoint(0,0)) return; 
-    //qDebug() << "new move command create" << coordinate_ << release_pos;
-    auto new_command = new MoveCommand(delta_point.x(), delta_point.y());
-    container_.apply(new_command, history);
+
+    if (diag_cursor_) {
+        setCursor(Qt::SizeFDiagCursor);
+    }
+    //qDebug() << "popali фаеук";
     update();
 }
 
