@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
     auto color_button = new QPushButton("Выберите цвет");
     auto save_button = new QPushButton("Сохранить");
     auto load_button = new QPushButton("Загрузить");
+    auto delete_button = new QPushButton("Удалить все");
     auto combo_box = new QComboBox();
     combo_box->addItem("Треугольник", static_cast<int>(ShapeType::Triangle));
     combo_box->addItem("Эллипс", static_cast<int>(ShapeType::Ellipse));
@@ -33,6 +34,7 @@ int main(int argc, char* argv[]) {
     header->addWidget(color_button);
     header->addWidget(save_button);
     header->addWidget(load_button);
+    header->addWidget(delete_button);
 
     QObject::connect(color_button, &QPushButton::clicked, [=](){
         QColor color = QColorDialog::getColor();
@@ -48,8 +50,13 @@ int main(int argc, char* argv[]) {
     });
 
     QObject::connect(load_button, &QPushButton::clicked, [=]() {
+        canvas->deleteAll();
         QString file_name = QFileDialog::getOpenFileName(main_widget);
         if (!file_name.isEmpty()) canvas->loadShapes(file_name);
+    });
+
+    QObject::connect(delete_button, &QPushButton::clicked, [=]() {
+        canvas->deleteAll();
     });
 
     QObject::connect(combo_box, &QComboBox::currentIndexChanged, [=](){

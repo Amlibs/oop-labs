@@ -6,6 +6,7 @@ qt_add_library(commands STATIC
     createcommand.cpp
     groupcommand.cpp
     ungroupcommand.cpp
+    multiplecommand.cpp
 )
 
 target_link_libraries(commands PUBLIC Qt6::Core shape_core shape_group)

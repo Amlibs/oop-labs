@@ -88,6 +88,7 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
             delete first;
         }
     }
+    delete new_command;
     update();
 }
 
@@ -104,7 +105,35 @@ void CanvasWidget::saveAllShapes(QString file_name) {
 }
 
 void CanvasWidget::loadShapes(QString file_name) {
-    container_.loadAll(file_name, factory_);
+    QFile file(file_name);
+    if (file.open(QIODevice::ReadOnly)) {
+        QTextStream stream(&file);
+        QString count = stream.readLine().trimmed();
+        qDebug() << count;
+        int cnt = count.toInt();
+        std::list<Command*> commands;
+        for (int i = 0; i < cnt; i++) {
+            Shape* shape = factory_->createShapesFromFile(stream);
+            if (shape == nullptr) {
+                QMessageBox::critical(nullptr, "Ошибка", "Файл с неправильным форматом данных");
+                return;
+            }
+            auto create_command = new CreateCommand(shape, container_.getList());
+            commands.push_back(create_command);
+        }
+        auto new_command = new MultipleCommand(commands);
+        container_.apply(new_command, history);
+    }
+    file.close();
+    update();
+}
+
+void CanvasWidget::deleteAll() {
+    for (auto i : container_) {
+        i->setSelect(true);
+    }
+    auto new_command = new DeleteCommand(container_.getList());
+    container_.apply(new_command, history);
     update();
 }
 

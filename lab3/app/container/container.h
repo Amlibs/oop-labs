@@ -2,7 +2,6 @@
 
 #include "shape.h"
 #include "command.h"
-#include "shapegroup.h"
 #include "../factory/factory.h"
 //#include <vector>
 #include <list>
@@ -18,7 +17,7 @@ class Container {
     void apply(Command*, std::list<Command*>&);
     void setNewBorder(QRect);
     void saveAll(QString);
-    void loadAll(QString, Factory*);
+    void loadAll(QString, Factory*, Command*);
     std::list<Shape*>::iterator find(Shape*);
     auto begin() {
         return container_.begin();

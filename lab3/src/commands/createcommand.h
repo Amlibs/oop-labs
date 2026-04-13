@@ -4,6 +4,7 @@
 
 class CreateCommand : public Command {
  public:
+    CreateCommand(std::list<Shape*>& container) : container_(container) {};
     CreateCommand(Shape*, std::list<Shape*>&);
     ~CreateCommand() {}
     bool execute(std::list<Shape*>&) override;

@@ -51,7 +51,7 @@ void Container::saveAll(QString file_name) {
     file.close();
 }
 
-void Container::loadAll(QString file_name, Factory* factory) {
+void Container::loadAll(QString file_name, Factory* factory, Command* command) {
     QFile file(file_name);
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream stream(&file);

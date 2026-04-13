@@ -4,7 +4,7 @@ CreateCommand::CreateCommand(Shape* shape, std::list<Shape*>& container) : shape
 
 bool CreateCommand::execute(std::list<Shape*>& shapes) {
     if (shape_ != nullptr) {
-        //qDebug() << *it_;
+        qDebug() << "create";
         container_.push_back(shape_);
         return true;
     }
@@ -15,8 +15,8 @@ void CreateCommand::unexecute() {
     it_ = std::find(container_.begin(), container_.end(), shape_);
     if (it_ != container_.end() && *it_ != nullptr) {
         //qDebug() << "asdasd";
-        container_.erase(it_);
         delete *it_;
+        container_.erase(it_);
     }
 }
 

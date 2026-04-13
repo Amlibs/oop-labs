@@ -20,6 +20,7 @@
 #include "createcommand.h"
 #include "groupcommand.h"
 #include "ungroupcommand.h"
+#include "multiplecommand.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT
@@ -29,6 +30,7 @@ class CanvasWidget : public QWidget {
     void changeColor(QColor);
     void saveAllShapes(QString);
     void loadShapes(QString);
+    void deleteAll();
  private:
     void mousePressEvent(QMouseEvent*) override;
     void mouseReleaseEvent(QMouseEvent*) override;

@@ -7,6 +7,7 @@ class DeleteCommand : public Command {
     DeleteCommand(std::list<Shape*>&);
     ~DeleteCommand() {
         for (auto i : shapes_) {
+            //if (std::find(container_.begin(), container_.end(), i) != container_.end()) continue;
             delete i;
         }
     };
