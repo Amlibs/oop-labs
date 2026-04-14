@@ -4,8 +4,10 @@
 #include <QColor>
 #include <QDebug>
 
-CanvasWidget::CanvasWidget(Factory* factory) : factory_(factory) {
+CanvasWidget::CanvasWidget(Factory* factory) : factory_(factory), menu_(this) {
     setFocusPolicy(Qt::StrongFocus);
+    group_action_ = menu_.addAction("Сгруппировать");
+    ungroup_action_ = menu_.addAction("Разгруппировать");
     //setMouseTracking(true);
 }
 
@@ -15,7 +17,25 @@ bool CanvasWidget::hitInShape(Shape* i, QPoint coordinate) {
 
 bool CanvasWidget::hitInResizeRect(Shape* i, QPoint coordinate) {
     return i->getResizeRect().contains(coordinate);
-} 
+}
+
+Shape* CanvasWidget::findTopHitShape(QPoint pos) {
+    for (auto it = container_.rbegin(); it != container_.rend(); it++) {
+        if (hitInShape((*it), pos)) {
+            return *it;
+        }
+    }
+    return nullptr;
+}
+
+Shape* CanvasWidget::findTopHitResizeRect(QPoint pos) {
+    for (auto it = container_.rbegin(); it != container_.rend(); it++) {
+        if (hitInResizeRect((*it), pos)) {
+            return *it;
+        }
+    }
+    return nullptr;
+}
 
 void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::RightButton) {
@@ -26,32 +46,28 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     bool isCtrlPressed = event->modifiers() & Qt::ControlModifier;
     bool haveSelect = container_.haveSelected();
     if (!isCtrlPressed) {
-        for (auto i : container_) {
-            i->setSelect(false);
-        }
+        container_.setAllSelect(false);
     }
-    bool hit = false;
-    //qDebug() << isCtrlPressed;
-    for (auto it = container_.rbegin(); it != container_.rend(); it++) {
-        Shape* i = *it;
-        hit = hitInShape(i, coordinate_);
-        bool hit_in_resizerect = hitInResizeRect(i, coordinate_);
-        i->setSelect(i->isSelected() & isCtrlPressed || hit || hit_in_resizerect);
-        if (hit_in_resizerect) {
-            move_cursor = false;
-            diag_cursor_ = true;
-        }
-        if (hit) {
-            move_cursor = true;
-            diag_cursor_ = false;
-            break;
-        }
+    
+    Shape* shape = findTopHitShape(coordinate_);
+    Shape* resize_rect = findTopHitResizeRect(coordinate_);
+
+    if (resize_rect != nullptr) {
+        resize_rect->setSelect(true);
+        mouse_mode_ = MouseType::Resize;
+        update();
+        return;
     }
-    if (!hit && !haveSelect) {
-        Command* command = new CreateCommand(factory_->createShapes(coordinate_, this->contentsRect()), container_.getList());
-        container_.apply(command, history);
-        //qDebug() << "create";
+
+    if (shape != nullptr) {
+        shape->setSelect(true);
+        mouse_mode_ = MouseType::Move;
+        update();
+        return;
     }
+
+    Command* command = new CreateCommand(factory_->createShapes(coordinate_, this->contentsRect()), container_.getList());
+    container_.apply(command, history);
     update();
 }
 
@@ -60,6 +76,7 @@ void CanvasWidget::paintEvent(QPaintEvent* event) {
     //qDebug() << "Вызываю draw для всех";
     for (auto i : container_) {
         i->draw(painter);
+        i->drawResizeRect(painter);
     }
 }
 
@@ -145,9 +162,7 @@ void CanvasWidget::loadShapes(QString file_name) {
 }
 
 void CanvasWidget::deleteAll() {
-    for (auto i : container_) {
-        i->setSelect(true);
-    }
+    container_.setAllSelect(true);
     auto new_command = new DeleteCommand(container_.getList());
     container_.apply(new_command, history);
     update();
@@ -160,25 +175,20 @@ void CanvasWidget::resizeEvent(QResizeEvent* event) {
 }
 
 void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) { 
-    QMenu menu(this);
-    QAction* group_action = menu.addAction("Сгруппировать");
-    group_action->setEnabled(container_.haveSelected());
-    QAction* ungroup_action = menu.addAction("Разгруппировать");
-    ungroup_action->setEnabled(container_.haveSelectedGroup());
-    QAction* selected_action = menu.exec(event->globalPos());
-    if (selected_action == group_action) {
+    group_action_->setEnabled(container_.haveSelected());
+    ungroup_action_->setEnabled(container_.haveSelectedGroup());
+    QAction* selected_action = menu_.exec(event->globalPos());
+    if (selected_action == group_action_) {
         auto group = new Group(this->rect());
         auto new_command = new GroupCommand(container_.getList(), group);
         container_.apply(new_command, history);
         delete new_command;
     }
-    if (selected_action == ungroup_action) {
-        //qDebug() << "ungroup";
+    if (selected_action == ungroup_action_) {
         auto new_command = new UnGroupCommand(container_.getList());
         container_.apply(new_command, history);
         delete new_command;
     }
-    //qDebug() << "update()";
     update();
 }
 
@@ -186,59 +196,52 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent* event) {
     if (event->button() == Qt::RightButton) {
         return;
     }
-    bool hit = false;
     QPoint release_pos = event->pos();
-    Command* new_command;
-    if (diag_cursor_ == true) {
-        QPoint delta_point = release_pos - coordinate_;
-        if (delta_point == QPoint(0,0)) return; 
-        //qDebug() << "new move command create" << coordinate_ << release_pos;
-        new_command = new ResizeCommand(-delta_point.x());
-        container_.apply(new_command, history);
-        diag_cursor_ = false;
+    QPoint delta_point = release_pos - coordinate_;
+    if (delta_point == QPoint(0,0)) {
         setCursor(Qt::ArrowCursor);
-    } else {
-        for (auto i : container_) { 
-            if (hitInShape(i, coordinate_) && i->isSelected()) {
-                hit = true;
-                break;
-            }
-        }
-        if (!hit) {
-            return;
-        }
-        QPoint delta_point = release_pos - coordinate_;
-        if (delta_point == QPoint(0,0)) return; 
-        //qDebug() << "new move command create" << coordinate_ << release_pos;
-        new_command = new MoveCommand(delta_point.x(), delta_point.y());
-        container_.apply(new_command, history);
+        return;
     }
-    delete new_command;
+    Command* new_command = nullptr;
+    switch (mouse_mode_) {
+        case MouseType::Move:
+            new_command = new MoveCommand(delta_point.x(), delta_point.y());
+            break;
+        case MouseType::Resize:
+            new_command = new ResizeCommand(-delta_point.x());
+        default:
+            break;
+    }
+
+    if (new_command != nullptr) {
+        container_.apply(new_command, history);
+        delete new_command;
+    }
+
+    setCursor(Qt::ArrowCursor);
+    mouse_mode_ = MouseType::Default;
     update();
 }
 
 void CanvasWidget::mouseMoveEvent(QMouseEvent* event) {
-    if (move_cursor) {
+    if (event->button() == Qt::RightButton) {
         return;
     }
-    QPoint coordinate = event->pos();
-    //qDebug() << coordinate;
-    Shape* hit_shape = nullptr;
-    for (auto i : container_) {
-        if (i->isSelected()) {
-            hit_shape = i;
+
+    switch (mouse_mode_) {
+        case MouseType::Default:
+            setCursor(Qt::ArrowCursor);
             break;
-        }
-    }
-    if (hit_shape != nullptr && hitInResizeRect(hit_shape, coordinate)) {
-        diag_cursor_ = true;
-        //qDebug() << "popali";
+        case MouseType::Move:
+            setCursor(Qt::ClosedHandCursor);
+            break;
+        case MouseType::Resize:
+            setCursor(Qt::SizeFDiagCursor);
+            break;
+        default:
+            break;
     }
 
-    if (diag_cursor_) {
-        setCursor(Qt::SizeFDiagCursor);
-    }
-    //qDebug() << "popali фаеук";
     update();
 }
 

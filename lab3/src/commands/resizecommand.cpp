@@ -15,7 +15,7 @@ bool ResizeCommand::execute(std::list<Shape*>& shapes) {
             //qDebug() << "exec in movecom";
             i->resize(dx_);
             i->updateShape();
-            i->print();
+            //i->print();
             if (!i->isValid() || !i->isPositiveLenght()) {
                 this->unexecute();
                 return false;

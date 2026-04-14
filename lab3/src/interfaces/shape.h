@@ -44,7 +44,6 @@ class Shape {
             painter.setPen(QColor::fromRgb(0, 204, 102));
             //qDebug() << "Hello rect";
         } else {
-            if (!in_group) drawResizeRect(painter);
             painter.setPen(QColor::fromRgb(0, 0, 204));
             //qDebug() << "Hello ctrl rect";
         }
@@ -114,6 +113,7 @@ class Shape {
     }
 
     void drawResizeRect(QPainter& painter) {
+        if (in_group || !isSelected()) return;
         QRect rect = getResizeRect();
         auto brush = painter.brush();
         painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));

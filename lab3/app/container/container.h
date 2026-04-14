@@ -54,6 +54,11 @@ class Container {
         }
         return have;
     }
+    void setAllSelect(bool b) {
+        for (auto i : container_) {
+            i->setSelect(b);
+        }
+    }
  private:
     std::list<Shape*> container_;
 };

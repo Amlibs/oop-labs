@@ -52,22 +52,7 @@ void Container::saveAll(QString file_name) {
 }
 
 void Container::loadAll(QString file_name, Factory* factory, Command* command) {
-    QFile file(file_name);
-    if (file.open(QIODevice::ReadOnly)) {
-        QTextStream stream(&file);
-        QString count = stream.readLine().trimmed();
-        qDebug() << count;
-        int cnt = count.toInt();
-        for (int i = 0; i < cnt; i++) {
-            Shape* shape = factory->createShapesFromFile(stream);
-            if (shape == nullptr) {
-                QMessageBox::critical(nullptr, "Ошибка", "Файл с неправильным форматом данных");
-                return;
-            }
-            container_.push_back(shape);
-        }
-    }
-    file.close();
+
 }
 
 /*

@@ -2,6 +2,7 @@ qt_add_executable(main
     main.cpp
     ./canvas/canvas.h
     ./canvas/canvas.cpp
+    ./canvas/mousetype.h
     ./factory/factory.h
     ./factory/factory.cpp
     ./container/container.h

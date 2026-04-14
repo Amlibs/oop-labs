@@ -7,8 +7,8 @@
 #include <QKeyEvent>
 #include <QResizeEvent>
 #include <QContextMenuEvent>
-#include <QMenu>
 #include <QString>
+#include <QMenu>
 #include <list>
 
 #include "../factory/factory.h"
@@ -21,6 +21,7 @@
 #include "groupcommand.h"
 #include "ungroupcommand.h"
 #include "multiplecommand.h"
+#include "mousetype.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT
@@ -41,11 +42,17 @@ class CanvasWidget : public QWidget {
     void contextMenuEvent(QContextMenuEvent*) override;
     bool hitInShape(Shape*, QPoint);
     bool hitInResizeRect(Shape*, QPoint);
+    Shape* whatShapeHit(bool&, bool);
+    Shape* findTopHitShape(QPoint);
+    Shape* findTopHitResizeRect(QPoint);
 
     QPoint coordinate_;
     Container container_;
     Factory* factory_;
-    bool diag_cursor_ = false;
-    bool move_cursor = true;
+    //bool diag_cursor_ = false;
+    MouseType mouse_mode_ = MouseType::Default;
     std::list<Command*> history;
+    QMenu menu_;
+    QAction* group_action_;
+    QAction* ungroup_action_;
 };

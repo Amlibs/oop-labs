@@ -34,8 +34,6 @@ void Group::draw(QPainter& painter) {
     painter.setPen(pen);
     painter.setBrush(Qt::NoBrush);
     painter.drawRect(border_);
-
-    drawResizeRect(painter);
 }
 
 void Group::resize(int x) {
