@@ -1,16 +1,20 @@
 #include "./base/base.h"
 #include "./desc/desc.h"
 
+#include "testobject.h"
+
+#include <memory>
+
 void func1(Base obj) {
     std::cout << "execute func1" << '\n';
     //(Desc)obj;
 }
 void func2(Base *obj) {
-    std::cout << "execute func1" << '\n';
+    std::cout << "execute func2" << '\n';
     //(Desc*)obj;
 }
 void func3(Base &obj) {
-    std::cout << "execute func1" << '\n';
+    std::cout << "execute func3" << '\n';
     //(Desc&)obj; 
 }
 
@@ -41,6 +45,41 @@ Base& func6() {
     std::cout << "execute base func6" << '\n';
     return *(new Base());
 }
+
+std::unique_ptr<TestObject> smart_func1() {
+    std::cout << "execute base smart_func1" << '\n';
+    return std::make_unique<TestObject>();
+}
+
+std::unique_ptr<TestObject> smart_func2(std::unique_ptr<TestObject> p) {
+    std::cout << "execute base smart_func2" << '\n';
+    p->print();
+    return p;
+}
+
+Base smart_func3() {
+    std::cout << "execute base smart_func3" << '\n';
+    auto p = std::make_unique<Base>();
+    return *p;
+}
+
+std::shared_ptr<TestObject2> smart_func4() {
+    std::cout << "execute base smart_func4" << '\n';
+    return std::make_shared<TestObject2>();
+}
+
+std::shared_ptr<TestObject2> smart_func5(std::shared_ptr<TestObject2> p) {
+    std::cout << "execute base smart_func5" << '\n';
+    p->print();
+    return p;
+}
+
+Base smart_func6() {
+    std::cout << "execute base smart_func6" << '\n';
+    auto p = std::make_shared<Base>();
+    return *p;
+}
+
 
 int main() {
     Base b;
@@ -74,6 +113,15 @@ int main() {
     std::cout << "--------func6----------" << '\n';
     Base& rbase_2 = func6();
     delete &rbase_2;
-    std::cout << "-----------------------" << '\n';
+    std::cout << "___________unique_ptr____________" << '\n';
+
+    std::unique_ptr<TestObject> ptr = smart_func1();
+    ptr = smart_func2(std::move(ptr));
+    Base u = smart_func3();
+    std::cout << "___________shared_ptr____________" << '\n';
+    std::shared_ptr<TestObject2> ptr_2 = smart_func4();
+    ptr_2 = smart_func5(std::move(ptr_2));
+    Base s = smart_func6();
+    std::cout << "_______________________" << '\n';
     return 0;
 }
