@@ -1,0 +1,1 @@
+g++ check_main.cpp -o main2
