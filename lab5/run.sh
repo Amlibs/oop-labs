@@ -1,1 +1,1 @@
-g++ main.cpp ./fruit/fruit.cpp ./apple/apple.cpp -o main
+g++ main.cpp ./fruit/fruit.cpp ./apple/apple.cpp ./mandarin/mandarin.cpp -o main

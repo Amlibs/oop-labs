@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 
 class Fruit {
  public:
@@ -11,4 +12,10 @@ class Fruit {
     void nonVirtaulFunc3();
     void nonVirtualFunc4();
     virtual void virtualFunc3();
+    virtual std::string classname() {
+        return "fruit";
+    }
+    virtual bool isA(std::string name) {
+        return name == "fruit";
+    }
 };
