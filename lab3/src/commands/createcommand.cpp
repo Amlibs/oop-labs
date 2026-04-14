@@ -4,7 +4,7 @@ CreateCommand::CreateCommand(Shape* shape, std::list<Shape*>& container) : shape
 
 bool CreateCommand::execute(std::list<Shape*>& shapes) {
     if (shape_ != nullptr) {
-        qDebug() << "create";
+        //qDebug() << "create";
         container_.push_back(shape_);
         return true;
     }

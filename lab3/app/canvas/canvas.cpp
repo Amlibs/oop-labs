@@ -16,7 +16,7 @@ bool CanvasWidget::hitInShape(Shape* i, QPoint coordinate) {
 }
 
 bool CanvasWidget::hitInResizeRect(Shape* i, QPoint coordinate) {
-    return i->getResizeRect().contains(coordinate);
+    return i->getResizeRect().contains(coordinate) && i->isSelected();
 }
 
 Shape* CanvasWidget::findTopHitShape(QPoint pos) {
@@ -45,12 +45,13 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     coordinate_ = event->pos();
     bool isCtrlPressed = event->modifiers() & Qt::ControlModifier;
     bool haveSelect = container_.haveSelected();
+
+    Shape* shape = findTopHitShape(coordinate_);
+    Shape* resize_rect = findTopHitResizeRect(coordinate_);
+
     if (!isCtrlPressed) {
         container_.setAllSelect(false);
     }
-    
-    Shape* shape = findTopHitShape(coordinate_);
-    Shape* resize_rect = findTopHitResizeRect(coordinate_);
 
     if (resize_rect != nullptr) {
         resize_rect->setSelect(true);
@@ -66,6 +67,12 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
         return;
     }
 
+    if (haveSelect) {
+        container_.setAllSelect(false);
+        update();
+        return;
+    }
+
     Command* command = new CreateCommand(factory_->createShapes(coordinate_, this->contentsRect()), container_.getList());
     container_.apply(command, history);
     update();
@@ -76,6 +83,8 @@ void CanvasWidget::paintEvent(QPaintEvent* event) {
     //qDebug() << "Вызываю draw для всех";
     for (auto i : container_) {
         i->draw(painter);
+    }
+    for (auto i : container_) {
         i->drawResizeRect(painter);
     }
 }

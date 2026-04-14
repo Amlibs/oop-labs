@@ -26,6 +26,7 @@ void Group::draw(QPainter& painter) {
     }
 
     //qDebug() << "draw group";
+    if (in_group) return;
 
     QPen pen(Qt::red);
     pen.setStyle(Qt::DashLine);

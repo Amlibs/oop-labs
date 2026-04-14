@@ -42,7 +42,6 @@ class CanvasWidget : public QWidget {
     void contextMenuEvent(QContextMenuEvent*) override;
     bool hitInShape(Shape*, QPoint);
     bool hitInResizeRect(Shape*, QPoint);
-    Shape* whatShapeHit(bool&, bool);
     Shape* findTopHitShape(QPoint);
     Shape* findTopHitResizeRect(QPoint);
 
