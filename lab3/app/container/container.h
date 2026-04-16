@@ -36,13 +36,14 @@ class Container {
     }
     bool haveSelectedGroup() {
         bool have = false;
+        int count = 0;
         for (auto i : container_){
             if (i->isGroup() && i->isSelected()) {
                 have = true;
-                break;
+                count++;
             }
         }
-        return have;
+        return (have && count < 2);
     }
     bool haveSelected() {
         bool have = false;
