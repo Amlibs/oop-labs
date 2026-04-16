@@ -5,5 +5,6 @@ enum class ShapeType {
     Ellipse,
     Rectangle,
     Square,
-    Triangle
+    Triangle,
+    Group
 };

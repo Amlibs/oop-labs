@@ -11,7 +11,7 @@
 #include <QMenu>
 #include <list>
 
-#include "../factory/factory.h"
+#include "factory.h"
 #include "../container/container.h"
 #include "movecommand.h"
 #include "resizecommand.h"
@@ -22,16 +22,20 @@
 #include "ungroupcommand.h"
 #include "multiplecommand.h"
 #include "mousetype.h"
+#include "../loader/loaderfromfile.h"
 
 class CanvasWidget : public QWidget {
     Q_OBJECT
  public:
-    CanvasWidget(Factory*);
+    CanvasWidget(Factory*, ShapeType type, QColor color);
     ~CanvasWidget();
     void changeColor(QColor);
     void saveAllShapes(QString);
     void loadShapes(QString);
     void deleteAll();
+    void setType(ShapeType type) {
+      current_type_ = type;
+    }
  private:
     void mousePressEvent(QMouseEvent*) override;
     void mouseReleaseEvent(QMouseEvent*) override;
@@ -54,4 +58,6 @@ class CanvasWidget : public QWidget {
     QMenu menu_;
     QAction* group_action_;
     QAction* ungroup_action_;
+    ShapeType current_type_;
+    QColor color_;
 };

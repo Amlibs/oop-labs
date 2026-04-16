@@ -4,7 +4,7 @@
 #include <QColor>
 #include <QDebug>
 
-CanvasWidget::CanvasWidget(Factory* factory) : factory_(factory), menu_(this) {
+CanvasWidget::CanvasWidget(Factory* factory, ShapeType type, QColor color) : factory_(factory), current_type_(type), color_(color), menu_(this) {
     setFocusPolicy(Qt::StrongFocus);
     group_action_ = menu_.addAction("Сгруппировать");
     ungroup_action_ = menu_.addAction("Разгруппировать");
@@ -73,7 +73,9 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
         return;
     }
 
-    Command* command = new CreateCommand(factory_->createShapes(coordinate_, this->contentsRect()), container_.getList());
+    Command* command = new CreateCommand(
+        factory_->createShapes(current_type_, coordinate_, this->contentsRect(), color_),
+        container_.getList());
     container_.apply(command, history);
     update();
 }
@@ -135,7 +137,8 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
 }
 
 void CanvasWidget::changeColor(QColor color) {
-    Command* new_command = new ChangeColorCommand(color);
+    color_ = color;
+    Command* new_command = new ChangeColorCommand(color_);
     if (new_command != nullptr) {
         container_.apply(new_command, history);
     }
@@ -148,6 +151,7 @@ void CanvasWidget::saveAllShapes(QString file_name) {
 
 void CanvasWidget::loadShapes(QString file_name) {
     QFile file(file_name);
+    ShapeLoaderFromFile loader;
     if (file.open(QIODevice::ReadOnly)) {
         QTextStream stream(&file);
         QString count = stream.readLine().trimmed();
@@ -155,7 +159,7 @@ void CanvasWidget::loadShapes(QString file_name) {
         int cnt = count.toInt();
         std::list<Command*> commands;
         for (int i = 0; i < cnt; i++) {
-            Shape* shape = factory_->createShapesFromFile(stream);
+            Shape* shape = loader.loadShape(stream, factory_);
             if (shape == nullptr) {
                 QMessageBox::critical(nullptr, "Ошибка", "Файл с неправильным форматом данных");
                 return;

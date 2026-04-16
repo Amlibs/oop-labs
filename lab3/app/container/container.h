@@ -2,7 +2,7 @@
 
 #include "shape.h"
 #include "command.h"
-#include "../factory/factory.h"
+#include "factory.h"
 //#include <vector>
 #include <list>
 #include <QString>

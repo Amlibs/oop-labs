@@ -7,7 +7,7 @@ class UnGroupCommand : public Command {
  public:
     UnGroupCommand(std::list<Shape*>&);
     ~UnGroupCommand() {
-        qDebug() << "delete ungroup";
+        //qDebug() << "delete ungroup";
         if (std::find(container_.begin(), container_.end(), group_) == container_.end()) delete group_;
     }
     bool execute(std::list<Shape*>&) override;

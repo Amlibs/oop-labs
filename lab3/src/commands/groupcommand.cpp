@@ -9,6 +9,7 @@ bool GroupCommand::execute(std::list<Shape*>& shapes) {
         if (!i->isSelected()) {
             continue;
         }
+        //qDebug() << "add group" << i << '\n';
         group_->addShape(i);
         container_.erase(it);
         added = true;
@@ -16,6 +17,7 @@ bool GroupCommand::execute(std::list<Shape*>& shapes) {
     if (!added) {
         return false;
     }
+    //qDebug() << group_ << '\n';
     container_.push_back(group_);
     return true;
 }

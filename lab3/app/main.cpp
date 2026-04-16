@@ -6,13 +6,13 @@
 #include <QPushButton>
 #include <QComboBox>
 #include <QFileDialog>
-#include "./factory/factory.h"
+#include "./factories/factoryshape.h"
 #include "./canvas/canvas.h"
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
-    auto factory = new Factory(QColor::fromRgb(153, 255, 204));
-    auto canvas = new CanvasWidget(factory);
+    auto factory = new FactoryShape();
+    auto canvas = new CanvasWidget(factory, ShapeType::Triangle, QColor::fromRgb(153, 255, 204));
     auto main_widget = new QWidget();
     main_widget->resize(1000, 700);
     auto header = new QHBoxLayout();
@@ -39,7 +39,6 @@ int main(int argc, char* argv[]) {
     QObject::connect(color_button, &QPushButton::clicked, [=](){
         QColor color = QColorDialog::getColor();
         if (color.isValid()) {
-            factory->setColor(color);
             canvas->changeColor(color);
         }
     });
@@ -50,9 +49,11 @@ int main(int argc, char* argv[]) {
     });
 
     QObject::connect(load_button, &QPushButton::clicked, [=]() {
-        canvas->deleteAll();
         QString file_name = QFileDialog::getOpenFileName(main_widget);
-        if (!file_name.isEmpty()) canvas->loadShapes(file_name);
+        if (!file_name.isEmpty()) {
+            canvas->deleteAll();
+            canvas->loadShapes(file_name);
+        }
     });
 
     QObject::connect(delete_button, &QPushButton::clicked, [=]() {
@@ -60,7 +61,7 @@ int main(int argc, char* argv[]) {
     });
 
     QObject::connect(combo_box, &QComboBox::currentIndexChanged, [=](){
-        factory->setType(static_cast<ShapeType>(combo_box->currentData().toInt()));
+        canvas->setType(static_cast<ShapeType>(combo_box->currentData().toInt()));
     });
 
     main_widget->show();

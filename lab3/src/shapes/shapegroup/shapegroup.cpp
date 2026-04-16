@@ -8,7 +8,7 @@ Group::~Group() {
     for (auto i : group_) {
         delete i;
     }
-    qDebug() << "destructor group";
+    //qDebug() << "destructor group";
 }
 
 bool Group::hit(QPoint pos) {
@@ -129,7 +129,7 @@ void Group::save(QTextStream& stream) {
 }
 
 void Group::load(QStringList& line) {
-    return;
+    canvas_border_ = QRect(0, 0, line[2].toInt(), line[3].toInt());
 }
 
 QString Group::type() {

@@ -3,11 +3,12 @@ qt_add_executable(main
     ./canvas/canvas.h
     ./canvas/canvas.cpp
     ./canvas/mousetype.h
-    ./factory/factory.h
-    ./factory/factory.cpp
+    ./factories/factoryshape.cpp
+    ./factories/factoryshape.h
     ./container/container.h
     ./container/container.cpp
-    shapetype.h
+    ./loader/loaderfromfile.h
+    ./loader/loaderfromfile.cpp
 )
 
 target_link_libraries(main PUBLIC Qt6::Widgets Qt6::Core Qt6::Gui shape_core circle ellipse triangle rectangle square commands)

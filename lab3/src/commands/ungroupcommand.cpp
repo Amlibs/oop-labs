@@ -3,20 +3,25 @@
 UnGroupCommand::UnGroupCommand(std::list<Shape*>& container) : container_ (container), group_(nullptr) {}
 
 bool UnGroupCommand::execute(std::list<Shape*>& shapes) {
+    Group* group = nullptr;
+    std::list<Shape*> result;
     for (auto i : container_) {
         if (!i->isGroup()) continue;
 
         if (!i->isSelected()) continue;
 
-        Group* group = dynamic_cast<Group*>(i);
-        auto result = group->returnAndClear();
-        for (auto j : result) {
-            container_.push_back(j);
-        }
-        group_ = group;
-        shapes_ = result;
-        container_.erase(std::find(container_.begin(), container_.end(), group_));
+        group = dynamic_cast<Group*>(i);
+        //qDebug() << "group: " << group;
+        result = group->returnAndClear();
+        break;
     }
+    for (auto j : result) {
+        //qDebug() << "UNGROUP";
+        container_.push_back(j);
+    }
+    group_ = group;
+    shapes_ = result;
+    container_.erase(std::find(container_.begin(), container_.end(), group_));
     //qDebug() << group_;
     return true;
 }
