@@ -31,6 +31,7 @@ Base* func2() {
 Base& func3() {
     std::cout << "execute base func3" << '\n';
     Base b;
+    std::cout << &b << '\n';
     return b;
 }
 Base func4() { 
@@ -105,6 +106,7 @@ int main() {
     std::cout << (pbase == nullptr) << '\n';
     std::cout << "--------func3----------" << '\n';
     Base& rbase = func3();
+    std::cout << &rbase << '\n';
     std::cout << "--------func4----------" << '\n';
     Base base_2 = func4();
     std::cout << "--------func5----------" << '\n';
