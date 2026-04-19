@@ -132,6 +132,14 @@ void Group::load(QStringList& line) {
     canvas_border_ = QRect(0, 0, line[2].toInt(), line[3].toInt());
 }
 
+QTreeWidgetItem* Group::getWidgetItem() {
+    QTreeWidgetItem* item = new QTreeWidgetItem();
+    item->setText(0, type());
+    for (auto i : group_) item->addChild(i->getWidgetItem());
+    //item->setData(0, Qt::UserRole, QVariant::fromValue(this));
+    return item;
+}
+
 QString Group::type() {
     return "group";
 }

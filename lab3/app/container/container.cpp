@@ -1,6 +1,8 @@
 #include "container.h"
 #include <QDebug>
 
+//Container::Container(TreeShapeView* tree) : tree_(tree) {}
+
 Container::~Container() {
     for (auto i : container_) {
         delete i;
@@ -9,7 +11,9 @@ Container::~Container() {
 }
 
 void Container::add(Shape* shape) {
-    container_.push_back(shape);
+    //container_.push_back(shape);
+    //tree_->addShape(shape);
+
 }
 
 void Container::removeSelected() {
@@ -31,6 +35,17 @@ void Container::apply(Command* command, std::list<Command*>& history) {
         return;
     }
     history.push_back(clone_comand);
+    notifyEveryone();
+}
+
+void Container::apply(std::list<Command*>& history) {
+    if (!history.empty()) {
+        Command* first = history.back();
+        history.pop_back();
+        first->unexecute();
+        delete first;
+        notifyEveryone();
+    }
 }
 
 void Container::setNewBorder(QRect canvas_border) {
@@ -49,6 +64,10 @@ void Container::saveAll(QString file_name) {
         }
     }
     file.close();
+}
+
+std::list<Shape*>::iterator Container::find(Shape* shape) {
+    return std::find(container_.begin(), container_.end(), shape);
 }
 
 void Container::loadAll(QString file_name, Factory* factory, Command* command) {

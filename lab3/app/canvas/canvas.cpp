@@ -4,7 +4,7 @@
 #include <QColor>
 #include <QDebug>
 
-CanvasWidget::CanvasWidget(Factory* factory, ShapeType type, QColor color) : factory_(factory), current_type_(type), color_(color), menu_(this) {
+CanvasWidget::CanvasWidget(Factory* factory, Container& container, ShapeType type, QColor color) : factory_(factory), container_(container), current_type_(type), color_(color), menu_(this) {
     setFocusPolicy(Qt::StrongFocus);
     group_action_ = menu_.addAction("Сгруппировать");
     ungroup_action_ = menu_.addAction("Разгруппировать");
@@ -54,14 +54,14 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
     }
 
     if (resize_rect != nullptr) {
-        resize_rect->setSelect(true);
+        container_.setShapeSelect(resize_rect, true);
         mouse_mode_ = MouseType::Resize;
         update();
         return;
     }
 
     if (shape != nullptr) {
-        shape->setSelect(true);
+        container_.setShapeSelect(shape, true);
         mouse_mode_ = MouseType::Move;
         update();
         return;
@@ -72,17 +72,18 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
         update();
         return;
     }
-
+    Shape* shape_add = factory_->createShapes(current_type_, coordinate_, this->contentsRect(), color_);
     Command* command = new CreateCommand(
-        factory_->createShapes(current_type_, coordinate_, this->contentsRect(), color_),
+        shape_add,
         container_.getList());
     container_.apply(command, history);
-    update();
+    //container_.add(shape_add);
+    //update();
 }
 
 void CanvasWidget::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
-    //qDebug() << "Вызываю draw для всех";
+    qDebug() << "Вызываю draw для всех";
     for (auto i : container_) {
         i->draw(painter);
     }
@@ -125,12 +126,7 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
     }
     if (event->keyCombination() == QKeyCombination(Qt::CTRL, Qt::Key_Z)) {
         //qDebug() << "ctrl z";
-        if (!history.empty()) {
-            Command* first = history.back();
-            history.pop_back();
-            first->unexecute();
-            delete first;
-        }
+        container_.apply(history);
     }
     delete new_command;
     update();
@@ -255,6 +251,11 @@ void CanvasWidget::mouseMoveEvent(QMouseEvent* event) {
             break;
     }
 
+    update();
+}
+
+void CanvasWidget::onSubjectChanged() {
+    qDebug() << "CanvaWidget::onSubjectChanged";
     update();
 }
 

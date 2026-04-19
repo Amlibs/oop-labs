@@ -22,6 +22,7 @@ class Group : public Shape {
     void move(int, int) override;
     void save(QTextStream&) override;
     void load(QStringList&) override;
+    QTreeWidgetItem* getWidgetItem() override;
     QString type() override;
     bool isGroup() override {
         return true;

@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QString>
 #include <QFile>
+#include <QTreeWidgetItem>
 
 class Shape {
  public:
@@ -128,6 +129,13 @@ class Shape {
 
     void setInGroup(bool b) {
         in_group = b;
+    }
+
+    virtual QTreeWidgetItem* getWidgetItem() {
+        QTreeWidgetItem* item = new QTreeWidgetItem();
+        item->setText(0, type());
+        item->setData(0, Qt::UserRole, QVariant::fromValue(this));
+        return item;
     }
 
  protected:

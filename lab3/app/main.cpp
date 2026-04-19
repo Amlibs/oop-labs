@@ -8,15 +8,22 @@
 #include <QFileDialog>
 #include "./factories/factoryshape.h"
 #include "./canvas/canvas.h"
+#include "./treeshapeview/treeshapeview.h"
+#include "observer.h"
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
     auto factory = new FactoryShape();
-    auto canvas = new CanvasWidget(factory, ShapeType::Triangle, QColor::fromRgb(153, 255, 204));
+    Container container;
+    auto treeshapeview = new TreeShapeView(container);
+    auto canvas = new CanvasWidget(factory, container, ShapeType::Triangle, QColor::fromRgb(153, 255, 204));
+    container.addObserver(treeshapeview);
+    container.addObserver(canvas);
     auto main_widget = new QWidget();
     main_widget->resize(1000, 700);
     auto header = new QHBoxLayout();
     auto layout = new QVBoxLayout();
+    auto h_layout = new QHBoxLayout();
     auto color_button = new QPushButton("Выберите цвет");
     auto save_button = new QPushButton("Сохранить");
     auto load_button = new QPushButton("Загрузить");
@@ -29,7 +36,13 @@ int main(int argc, char* argv[]) {
     combo_box->addItem("Квадрат", static_cast<int>(ShapeType::Square));
     main_widget->setLayout(layout);
     layout->addLayout(header);
-    layout->addWidget(canvas);
+    layout->addLayout(h_layout);
+    h_layout->addWidget(treeshapeview);
+    h_layout->addWidget(canvas);
+    //treeshapeview->setMinimumWidth(200);
+    treeshapeview->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+    canvas->setMinimumSize(400, 400);
+    canvas->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     header->addWidget(combo_box);
     header->addWidget(color_button);
     header->addWidget(save_button);

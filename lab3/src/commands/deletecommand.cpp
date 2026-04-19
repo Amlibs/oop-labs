@@ -4,15 +4,17 @@ DeleteCommand::DeleteCommand(std::list<Shape*>& container) : container_ (contain
 }
 
 bool DeleteCommand::execute(std::list<Shape*>& shapes) {
+    bool flag = false;
     for (auto i = shapes.begin(); i != shapes.end(); i++) {
         Shape* shape = *i;
         if (!shape->isSelected()) {
             continue;
         }
+        flag = true;
         shapes_.push_back(shape);
         shapes.erase(i);
     }
-    return true;
+    return flag;
 }
 
 void DeleteCommand::unexecute() {

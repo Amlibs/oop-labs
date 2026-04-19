@@ -9,6 +9,8 @@ qt_add_executable(main
     ./container/container.cpp
     ./loader/loaderfromfile.h
     ./loader/loaderfromfile.cpp
+    ./treeshapeview/treeshapeview.h
+    ./treeshapeview/treeshapeview.cpp
 )
 
 target_link_libraries(main PUBLIC Qt6::Widgets Qt6::Core Qt6::Gui shape_core circle ellipse triangle rectangle square commands)
