@@ -55,20 +55,27 @@ void Group::updateShape() {
     for (auto i : group_) {
         i->updateShape();
     }
+    setCenterGroup();
     setBorderGroup();
 }
 
 void Group::addShape(Shape* shape) {
     group_.push_back(shape);
     setBorderGroup();
+    setCenterGroup();
     shape->setInGroup(true);
 }
 
 void Group::move(int dx, int dy, std::unordered_set<Shape*>& visited) {
-    //qDebug() << "move group" << dx << dy;
+    if (visited.find(this) != visited.end()) {
+            qDebug() << "я тут уже был";
+            return;
+        }
+    visited.insert(this);
     for (auto i : group_) {
         i->move(dx, dy, visited);
     }
+    notifyEveryoneAboutMove(dx, dy, visited);
 }
 
 void Group::setBorderGroup() {
@@ -89,6 +96,15 @@ void Group::setBorderGroup() {
     }
     border_ = QRect(QPoint(min_x, min_y), QPoint(max_x, max_y));
     //qDebug() << border_ << "<- граница";
+}
+
+void Group::setCenterGroup() {
+    QPoint avg_center_(0, 0);
+    for (auto i : group_) {
+        avg_center_ += i->getCenter();
+    }
+    center_ = avg_center_ / group_.size();
+    qDebug() << center_;
 }
 
 void Group::setSelect(bool select) {

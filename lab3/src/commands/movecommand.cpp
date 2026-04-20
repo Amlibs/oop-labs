@@ -8,6 +8,7 @@ bool MoveCommand::execute(std::list<Shape*>& shapes) {
     //shape_ = shape;
     bool flag = false;
     if (!shapes.empty()) {
+        std::unordered_set<Shape*> visited;
         for (auto i : shapes) {
             if (!i->isSelected()) {
                 continue;
@@ -15,7 +16,6 @@ bool MoveCommand::execute(std::list<Shape*>& shapes) {
             flag = true;
             shapes_.push_back(i);
             qDebug() << "exec in movecom";
-            std::unordered_set<Shape*> visited;
             i->move(dx_, dy_, visited);
             i->updateShape();
             if (!i->isValid()) {

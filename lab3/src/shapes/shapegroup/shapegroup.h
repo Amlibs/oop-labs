@@ -12,6 +12,7 @@ class Group : public Shape {
     bool isSelected() override;
     void setSelect(bool) override;
     void setColor(QColor) override;
+    void setCenterGroup();
     bool hit(QPoint) override;
     void draw(QPainter&) override;
     void resize(int) override;
