@@ -13,7 +13,7 @@ qt_add_executable(main
     ./treeshapeview/treeshapeview.cpp
 )
 
-target_link_libraries(main PUBLIC Qt6::Widgets Qt6::Core Qt6::Gui shape_core circle ellipse triangle rectangle square commands)
+target_link_libraries(main PUBLIC Qt6::Widgets Qt6::Core Qt6::Gui shape_core circle ellipse triangle rectangle square arrowlink commands)
 
 
 set_target_properties(main PROPERTIES

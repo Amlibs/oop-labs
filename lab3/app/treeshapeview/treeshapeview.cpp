@@ -17,7 +17,7 @@ void TreeShapeView::addShape(::Shape* shape) {
 }*/
 
 void TreeShapeView::onSubjectChanged() {
-    qDebug() << "someone notify me";
+    //qDebug() << "someone notify me";
     if (block) return;
     block = true;
     for (auto i : container_) {

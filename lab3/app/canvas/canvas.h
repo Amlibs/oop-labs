@@ -60,6 +60,7 @@ class CanvasWidget : public QWidget, public Observer {
     QMenu menu_;
     QAction* group_action_;
     QAction* ungroup_action_;
+    QAction* link_action_;
     ShapeType current_type_;
     QColor color_;
 };

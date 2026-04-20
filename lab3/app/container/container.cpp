@@ -7,6 +7,9 @@ Container::~Container() {
     for (auto i : container_) {
         delete i;
     }
+    for (auto i : arrows_) {
+        delete i;
+    }
     qDebug() << "delete";
 }
 

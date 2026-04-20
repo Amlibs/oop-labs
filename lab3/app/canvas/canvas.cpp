@@ -8,6 +8,7 @@ CanvasWidget::CanvasWidget(Factory* factory, Container& container, ShapeType typ
     setFocusPolicy(Qt::StrongFocus);
     group_action_ = menu_.addAction("Сгруппировать");
     ungroup_action_ = menu_.addAction("Разгруппировать");
+    link_action_ = menu_.addAction("Связать");
     //setMouseTracking(true);
 }
 
@@ -83,7 +84,11 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
 
 void CanvasWidget::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
-    qDebug() << "Вызываю draw для всех";
+    //qDebug() << "Вызываю draw для всех";
+    for (auto it = container_.arrowBegin(); it != container_.arrowEnd(); it++) {
+        ArrowLink* i = *it;
+        i->draw(painter);
+    }
     for (auto i : container_) {
         i->draw(painter);
     }
@@ -186,6 +191,7 @@ void CanvasWidget::resizeEvent(QResizeEvent* event) {
 void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) { 
     group_action_->setEnabled(container_.haveSelected());
     ungroup_action_->setEnabled(container_.haveSelectedGroup());
+    link_action_->setEnabled(container_.countSelected() == 2);
     QAction* selected_action = menu_.exec(event->globalPos());
     if (selected_action == group_action_) {
         auto group = new Group(this->rect());
@@ -197,6 +203,11 @@ void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) {
         auto new_command = new UnGroupCommand(container_.getList());
         container_.apply(new_command, history);
         delete new_command;
+    }
+    if (selected_action == link_action_) {
+        std::pair<Shape*, Shape*> pair = container_.getTwoSelected();
+        auto arrow = new ArrowLink(pair.first, pair.second);
+        container_.addArrow(arrow);
     }
     update();
 }
@@ -255,7 +266,7 @@ void CanvasWidget::mouseMoveEvent(QMouseEvent* event) {
 }
 
 void CanvasWidget::onSubjectChanged() {
-    qDebug() << "CanvaWidget::onSubjectChanged";
+    //qDebug() << "CanvaWidget::onSubjectChanged";
     update();
 }
 

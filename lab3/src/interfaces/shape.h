@@ -1,13 +1,15 @@
 #pragma once
 
 #include <QPoint>
-#include <QPainter>
 #include <QDebug>
 #include <QString>
 #include <QFile>
 #include <QTreeWidgetItem>
 
-class Shape {
+#include "drawable.h"
+#include "observer.h"
+
+class Shape : public Drawable {
  public:
     Shape() : center_(QPoint(0, 0)), select_(false), color_(QColor::fromRgb(153, 255, 204)) {};
     Shape(QPoint center, QRect canvas_border, bool select, QColor color = QColor::fromRgb(153, 255, 204)) : center_(center), select_(select), canvas_border_(canvas_border), color_(color) {};
@@ -36,6 +38,9 @@ class Shape {
     QRect getBorder() {
         return border_;
     }
+    QPoint getCenter() {
+        return center_;
+    }
     virtual void draw(QPainter& painter) {
         painter.setRenderHint(QPainter::Antialiasing);
         painter.setBrush(QBrush(color_, Qt::SolidPattern));
@@ -50,9 +55,18 @@ class Shape {
         }
     }
     virtual bool hit(QPoint const) = 0;
-    virtual void move(int dx, int dy) {
-        //qDebug() << "shape move" << dx << dy;
+    virtual void move(int dx, int dy, std::unordered_set<Shape*>& visited) {
+        qDebug() << "shape move" << dx << dy << center_ << this;
+        if (visited.find(this) != visited.end()) {
+            qDebug() << "я тут уже был";
+            return;
+        }
+        qDebug() << "добавляю: " << this;
+        visited.insert(this);
         center_ = QPoint(center_.x() + dx, center_.y() + dy);
+        qDebug() << "shape after move" << dx << dy << center_;
+        qDebug() << "notify move";
+        notifyEveryoneAboutMove(dx, dy, visited);
     }
     virtual void updateShape() = 0;
     virtual void resize(int) = 0;
@@ -104,7 +118,8 @@ class Shape {
         }
         //qDebug() << "asdasdasda" << dx << dy << border_.x() << border_.y();
         //qDebug() << center_;
-        move(dx, dy);
+        std::unordered_set<Shape*> temp{};
+        move(dx, dy, temp);
         updateShape();
         //qDebug() << center_;
     }
@@ -138,6 +153,19 @@ class Shape {
         return item;
     }
 
+    void addObserver(Observer* o) {
+        qDebug() << "add obs shape";
+		observers_.push_back(o);
+	}
+
+    void notifyEveryoneAboutMove(int dx, int dy, std::unordered_set<Shape*>& visited) {
+        //qDebug() << "notify";
+		for (const auto &o : observers_) {
+            qDebug() << "notify obs";
+			o->onSubjectMove(this, dx, dy, visited);
+        }
+	}
+
  protected:
     QPoint center_;
     bool select_;
@@ -145,4 +173,5 @@ class Shape {
     QRect canvas_border_;
     QRect border_;
     bool in_group = false;
+    std::list<Observer*> observers_;
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "shape.h"
+#include "arrowlink.h"
 #include "command.h"
 #include "factory.h"
 #include "observer.h"
@@ -59,6 +60,17 @@ class Container {
         }
         return have;
     }
+
+    int countSelected() {
+        int count = 0;
+        for (auto i : container_) {
+            if (i->isSelected()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     void setAllSelect(bool b) {
         for (auto i : container_) {
             i->setSelect(b);
@@ -76,16 +88,41 @@ class Container {
 	}
 
 	void notifyEveryone() {
-        qDebug() << "notify";
+        //qDebug() << "notify";
 		for (const auto &o : observers_) {
             //qDebug() << "notify obs";
 			o->onSubjectChanged();
         }
 	}
 
+    auto arrowBegin() {
+        return arrows_.begin();
+    }
+
+    auto arrowEnd() {
+        return arrows_.end();
+    }
+
+    void addArrow(ArrowLink* arrow) {
+        arrows_.push_back(arrow);
+    } 
+
+    std::pair<Shape*, Shape*> getTwoSelected() {
+        Shape* f = nullptr;
+        Shape* s = nullptr;
+        for (auto i : container_) {
+            if (!i->isSelected()) continue;
+            
+            if (f == nullptr) f = i;
+            else if (s == nullptr) s = i;
+        }
+        qDebug() << f << s;
+        return std::make_pair(f, s);
+    }
     
  private:
     std::list<Shape*> container_;
+    std::list<ArrowLink*> arrows_;
     std::list<Observer*> observers_;
     //TreeShapeView* tree_;
 };

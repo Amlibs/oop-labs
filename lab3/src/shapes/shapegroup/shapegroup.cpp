@@ -64,10 +64,10 @@ void Group::addShape(Shape* shape) {
     shape->setInGroup(true);
 }
 
-void Group::move(int dx, int dy) {
+void Group::move(int dx, int dy, std::unordered_set<Shape*>& visited) {
     //qDebug() << "move group" << dx << dy;
     for (auto i : group_) {
-        i->move(dx, dy);
+        i->move(dx, dy, visited);
     }
 }
 

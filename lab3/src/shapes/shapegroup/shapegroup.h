@@ -19,7 +19,7 @@ class Group : public Shape {
     void updateShape() override;
     void addShape(Shape*);
     std::list<Shape*> returnAndClear();
-    void move(int, int) override;
+    void move(int, int, std::unordered_set<Shape*>&) override;
     void save(QTextStream&) override;
     void load(QStringList&) override;
     QTreeWidgetItem* getWidgetItem() override;
