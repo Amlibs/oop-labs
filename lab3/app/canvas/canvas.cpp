@@ -9,6 +9,7 @@ CanvasWidget::CanvasWidget(Factory* factory, Container& container, ShapeType typ
     group_action_ = menu_.addAction("Сгруппировать");
     ungroup_action_ = menu_.addAction("Разгруппировать");
     link_action_ = menu_.addAction("Связать");
+    unlink_action_ = menu_.addAction("Отвязать");
     //setMouseTracking(true);
 }
 
@@ -85,8 +86,9 @@ void CanvasWidget::mousePressEvent(QMouseEvent* event) {
 void CanvasWidget::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     //qDebug() << "Вызываю draw для всех";
+    //qDebug() << container_.getArrowsList().size();
     for (auto it = container_.arrowBegin(); it != container_.arrowEnd(); it++) {
-        ArrowLink* i = *it;
+        ArrowLink* i = (ArrowLink*)*it;
         i->draw(painter);
     }
     for (auto i : container_) {
@@ -95,6 +97,7 @@ void CanvasWidget::paintEvent(QPaintEvent* event) {
     for (auto i : container_) {
         i->drawResizeRect(painter);
     }
+    //qDebug() << "вызвал";
 }
 
 void CanvasWidget::keyPressEvent(QKeyEvent* event) {
@@ -102,7 +105,7 @@ void CanvasWidget::keyPressEvent(QKeyEvent* event) {
     QRect canvas_border = this->contentsRect();
     switch (event->key()) {
     case Qt::Key_Delete:
-        new_command = new DeleteCommand(container_.getList());
+        new_command = new DeleteCommand(container_.getList(), container_.getArrowsList());
         break;
     case Qt::Key_Left:
         new_command = new MoveCommand(-20, 0);
@@ -177,7 +180,7 @@ void CanvasWidget::loadShapes(QString file_name) {
 
 void CanvasWidget::deleteAll() {
     container_.setAllSelect(true);
-    auto new_command = new DeleteCommand(container_.getList());
+    auto new_command = new DeleteCommand(container_.getList(), container_.getArrowsList());
     container_.apply(new_command, history);
     update();
 }
@@ -192,10 +195,12 @@ void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) {
     group_action_->setEnabled(container_.haveSelected());
     ungroup_action_->setEnabled(container_.haveSelectedGroup());
     link_action_->setEnabled(container_.countSelected() == 2);
+    unlink_action_->setEnabled(container_.getArrowsList().size() >= 1);
+    qDebug() << container_.getArrowsList().size();
     QAction* selected_action = menu_.exec(event->globalPos());
     if (selected_action == group_action_) {
         auto group = new Group(this->rect());
-        auto new_command = new GroupCommand(container_.getList(), group);
+        auto new_command = new GroupCommand(container_.getList(), group, container_.getArrowsList());
         container_.apply(new_command, history);
         delete new_command;
     }
@@ -207,7 +212,17 @@ void CanvasWidget::contextMenuEvent(QContextMenuEvent* event) {
     if (selected_action == link_action_) {
         std::pair<Shape*, Shape*> pair = container_.getTwoSelected();
         auto arrow = new ArrowLink(pair.first, pair.second);
-        container_.addArrow(arrow);
+        Command* new_command = new LinkCommand(pair.first, pair.second, arrow, container_.getArrowsList());
+        container_.apply(new_command, history);
+        delete new_command;
+        //container_.addArrow(arrow);
+    }
+    if (selected_action == unlink_action_) {
+        std::pair<Shape*, Shape*> pair = container_.getTwoSelected();
+        ArrowLink* link = container_.findLink(pair.first, pair.second);
+        Command* new_command = new UnLinkCommand(link, container_.getArrowsList());
+        container_.apply(new_command, history);
+        delete new_command;
     }
     update();
 }

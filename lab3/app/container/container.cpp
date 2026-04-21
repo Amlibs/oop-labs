@@ -76,3 +76,15 @@ std::list<Shape*>::iterator Container::find(Shape* shape) {
 void Container::loadAll(QString file_name, Factory* factory, Command* command) {
 
 }
+
+ArrowLink* Container::findLink(Shape* from, Shape* to) {
+    for (auto i : arrows_) {
+        bool var_a = i->getFrom() == from && i->getTo() == to;
+        bool var_b = i->getFrom() == to && i->getTo() == from;
+
+        if (var_a || var_b) {
+            return dynamic_cast<ArrowLink*>(i);
+        }
+    }
+    return nullptr;
+}

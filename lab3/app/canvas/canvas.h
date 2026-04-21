@@ -21,6 +21,8 @@
 #include "groupcommand.h"
 #include "ungroupcommand.h"
 #include "multiplecommand.h"
+#include "linkcommand.h"
+#include "unlinkcommand.h"
 #include "mousetype.h"
 #include "../loader/loaderfromfile.h"
 #include "observer.h"
@@ -61,6 +63,7 @@ class CanvasWidget : public QWidget, public Observer {
     QAction* group_action_;
     QAction* ungroup_action_;
     QAction* link_action_;
+    QAction* unlink_action_;
     ShapeType current_type_;
     QColor color_;
 };

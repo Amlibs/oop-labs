@@ -24,6 +24,7 @@ class Container {
     void saveAll(QString);
     void loadAll(QString, Factory*, Command*);
     std::list<Shape*>::iterator find(Shape*);
+    ArrowLink* findLink(Shape*, Shape*);
     auto begin() {
         return container_.begin();
     }
@@ -105,7 +106,11 @@ class Container {
 
     void addArrow(ArrowLink* arrow) {
         arrows_.push_back(arrow);
-    } 
+    }
+
+    std::list<Observer*>& getArrowsList() {
+        return arrows_;
+    }
 
     std::pair<Shape*, Shape*> getTwoSelected() {
         Shape* f = nullptr;
@@ -122,7 +127,7 @@ class Container {
     
  private:
     std::list<Shape*> container_;
-    std::list<ArrowLink*> arrows_;
+    std::list<Observer*> arrows_;
     std::list<Observer*> observers_;
     //TreeShapeView* tree_;
 };

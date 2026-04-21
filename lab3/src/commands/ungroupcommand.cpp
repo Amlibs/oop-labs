@@ -12,6 +12,10 @@ bool UnGroupCommand::execute(std::list<Shape*>& shapes) {
 
         group = dynamic_cast<Group*>(i);
         //qDebug() << "group: " << group;
+        auto arr = group->getObservers();
+        for (auto j : arr) {
+            j->remove();
+        }
         result = group->returnAndClear();
         break;
     }

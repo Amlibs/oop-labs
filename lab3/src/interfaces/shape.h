@@ -15,6 +15,10 @@ class Shape : public Drawable {
     Shape(QPoint center, QRect canvas_border, bool select, QColor color = QColor::fromRgb(153, 255, 204)) : center_(center), select_(select), canvas_border_(canvas_border), color_(color) {};
     virtual ~Shape() {
         //qDebug() << "delete base shape";
+        /*
+        for (auto i : observers_) {
+            delete i;
+        }*/
     }
     virtual bool isSelected() {
         return select_;
@@ -56,16 +60,16 @@ class Shape : public Drawable {
     }
     virtual bool hit(QPoint const) = 0;
     virtual void move(int dx, int dy, std::unordered_set<Shape*>& visited) {
-        qDebug() << "shape move" << dx << dy << center_ << this;
+        //qDebug() << "shape move" << dx << dy << center_ << this;
         if (visited.find(this) != visited.end()) {
-            qDebug() << "я тут уже был";
+            //qDebug() << "я тут уже был";
             return;
         }
-        qDebug() << "добавляю: " << this;
+        //qDebug() << "добавляю: " << this;
         visited.insert(this);
         center_ = QPoint(center_.x() + dx, center_.y() + dy);
-        qDebug() << "shape after move" << dx << dy << center_;
-        qDebug() << "notify move";
+        //qDebug() << "shape after move" << dx << dy << center_;
+        //qDebug() << "notify move";
         notifyEveryoneAboutMove(dx, dy, visited);
     }
     virtual void updateShape() = 0;
@@ -98,14 +102,15 @@ class Shape : public Drawable {
         return canvas_border_.contains(border_);
     }
 
-    void returnInCanvas() {
+    std::pair<int, int> getCorrections() {
+        qDebug() << canvas_border_;
         int dx = 0;
         int dy = 0;
 
-        if (border_.x() < 0) {
+        if (border_.x() < canvas_border_.x()) {
             dx = - border_.x();
         }
-        if (border_.y() < 0) {
+        if (border_.y() < canvas_border_.y()) {
             dy = - border_.y();
         }
 
@@ -116,6 +121,14 @@ class Shape : public Drawable {
         if (border_.y() + border_.height() > canvas_border_.y() + canvas_border_.height()) {
             dy = (canvas_border_.y() + canvas_border_.height()) - (border_.y() + border_.height());
         }
+        return {dx, dy};
+    }
+
+    void returnInCanvas() {
+        //qDebug() << canvas_border_;
+        std::pair<int, int> p = getCorrections();
+        int dx = p.first;
+        int dy = p.second;
         //qDebug() << "asdasdasda" << dx << dy << border_.x() << border_.y();
         //qDebug() << center_;
         std::unordered_set<Shape*> temp{};
@@ -158,13 +171,25 @@ class Shape : public Drawable {
 		observers_.push_back(o);
 	}
 
+    void removeObserver(Observer* o) {
+        observers_.remove(o);
+    }
+
     void notifyEveryoneAboutMove(int dx, int dy, std::unordered_set<Shape*>& visited) {
-        //qDebug() << "notify";
+        qDebug() << "notify";
 		for (const auto &o : observers_) {
             qDebug() << "notify obs";
 			o->onSubjectMove(this, dx, dy, visited);
         }
 	}
+
+    std::list<Observer*> getObservers() {
+        return observers_;
+    }
+
+    void setObservers(std::list<Observer*>& observers) {
+        observers_ = observers;
+    }
 
  protected:
     QPoint center_;

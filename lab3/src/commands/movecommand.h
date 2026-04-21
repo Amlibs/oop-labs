@@ -9,6 +9,7 @@ class MoveCommand : public Command {
     bool execute(std::list<Shape*>&) override;
 	void unexecute() override;
 	Command* clone() override;
+    int combineCorrection(int, int);
 	~MoveCommand() { };
  private:
     std::list<Shape*> shapes_;
