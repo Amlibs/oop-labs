@@ -21,7 +21,7 @@ class Rectangle : public Shape {
     void resize(int) override;
     bool isPositiveLenght() override;
     void save(QTextStream&) override;
-    void load(QStringList&) override;
+    void load(QStringList&, QTextStream&, Factory*, ShapeLoaderFromFile*) override;
     QString type() override;
  protected:
     int height_;

@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "shape.h"
+#include "../../app/loader/loaderfromfile.h"
 
 class Group : public Shape {
  public:
@@ -22,7 +23,7 @@ class Group : public Shape {
     std::list<Shape*> returnAndClear();
     void move(int, int, std::unordered_set<Shape*>&) override;
     void save(QTextStream&) override;
-    void load(QStringList&) override;
+    void load(QStringList&, QTextStream&, Factory*, ShapeLoaderFromFile*) override;
     QTreeWidgetItem* getWidgetItem() override;
     QString type() override;
     bool isGroup() override {

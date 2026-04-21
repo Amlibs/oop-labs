@@ -144,9 +144,13 @@ void Group::save(QTextStream& stream) {
     }
 }
 
-void Group::load(QStringList& line) {
+void Group::load(QStringList& line, QTextStream& stream, Factory* factory, ShapeLoaderFromFile* loader) {
     canvas_border_ = QRect(0, 0, line[2].toInt(), line[3].toInt());
+    for (int j = 0; j < line[1].toInt(); j++) {
+        addShape(loader->loadShape(stream, factory));
+    }
 }
+
 
 QTreeWidgetItem* Group::getWidgetItem() {
     QTreeWidgetItem* item = new QTreeWidgetItem();

@@ -4,7 +4,6 @@
 
 #include "factory.h"
 #include "shapetype.h"
-#include "shapegroup.h"
 #include "shape.h"
 
 class ShapeLoaderFromFile {

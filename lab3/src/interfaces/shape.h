@@ -8,6 +8,10 @@
 
 #include "drawable.h"
 #include "observer.h"
+#include "factory.h"
+
+class Factory;
+class ShapeLoaderFromFile;
 
 class Shape : public Drawable {
  public:
@@ -76,7 +80,7 @@ class Shape : public Drawable {
     virtual void resize(int) = 0;
     virtual bool isPositiveLenght() = 0;
     virtual void save(QTextStream&) = 0;
-    virtual void load(QStringList& line) {
+    virtual void load(QStringList& line, QTextStream& stream, Factory* factory, ShapeLoaderFromFile* loader) {
         center_ = QPoint(line[1].toInt(), line[2].toInt());
         canvas_border_ = QRect(line[3].toInt(), line[4].toInt(), line[5].toInt(), line[6].toInt());
         color_ = line[line.size() - 1];

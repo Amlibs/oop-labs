@@ -41,8 +41,8 @@ void Ellipse::save(QTextStream& stream) {
     stream << getDataForFile() << ' ' << temp << '\n';
 }
 
-void Ellipse::load(QStringList& line) {
-    Shape::load(line);
+void Ellipse::load(QStringList& line, QTextStream& stream, Factory* factory, ShapeLoaderFromFile* loader) {
+    Shape::load(line, stream, factory, loader);
     radius_x_ = line[7].toDouble();
     radius_y_ = line[8].toDouble();
     updateShape();

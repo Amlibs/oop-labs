@@ -49,8 +49,8 @@ void Rectangle::save(QTextStream& stream) {
     stream << getDataForFile() << ' ' << temp << '\n';
 }
 
-void Rectangle::load(QStringList& line) {
-    Shape::load(line);
+void Rectangle::load(QStringList& line, QTextStream& stream, Factory* factory, ShapeLoaderFromFile* loader) {
+    Shape::load(line, stream, factory, loader);
     length_ = line[7].toInt();
     height_ = line[8].toInt();
     updateShape();

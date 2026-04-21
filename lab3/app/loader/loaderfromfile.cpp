@@ -8,14 +8,7 @@ Shape* ShapeLoaderFromFile::loadShape(QTextStream& stream, Factory* factory) {
 
     ShapeType type = convertStringTypeToEnum(line[0]);
     Shape* shape = factory->createShapes(type, QPoint(), QRect(), QColor());
-    shape->load(line);
-    if (dynamic_cast<Group*>(shape) != nullptr) {
-        Group* gshape = dynamic_cast<Group*>(shape);
-        for (int j = 0; j < line[1].toInt(); j++) {
-            gshape->addShape(loadShape(stream, factory));
-        }
-        return gshape;
-    }
+    shape->load(line, stream, factory, this);
     return shape;
 }
 

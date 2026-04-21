@@ -10,8 +10,8 @@ class Square : public Rectangle {
         QString temp = QString("%1 %2").arg(length_).arg(color_.name());
         stream << getDataForFile() << ' ' << temp << '\n';
     }
-    void load(QStringList& line) override {
-        Shape::load(line);
+    void load(QStringList& line, QTextStream& stream, Factory* factory, ShapeLoaderFromFile* loader) override {
+        Shape::load(line, stream, factory, loader);
         length_ = line[7].toInt();
         updateShape();
     }
